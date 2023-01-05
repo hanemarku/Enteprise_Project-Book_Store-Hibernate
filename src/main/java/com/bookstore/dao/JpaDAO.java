@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-public class JpaDAO<T> {
+public class JpaDAO<E> {
     protected EntityManager entityManager;
 
     public JpaDAO(EntityManager entityManager) {
@@ -13,32 +13,45 @@ public class JpaDAO<T> {
     }
 
 //    @Override
-    public T create(T t) {
+    public E create(E entity) {
         entityManager.getTransaction().begin();
-        entityManager.persist(t);
+        entityManager.persist(entity);
         entityManager.flush();
-        entityManager.refresh(t);
+        entityManager.refresh(entity);
         entityManager.getTransaction().commit();
-        return t;
+        return entity;
     }
 
 //    @Override
-    public T update(T t) {
+    public E update(E entity) {
+        entityManager.getTransaction().begin();
+        entity = entityManager.merge(entity);
+        entityManager.getTransaction().commit();
+        return entity;
+    }
+
+//    @Override
+    public E get(Object id) {
         return null;
     }
 
-//    @Override
-    public T get(Object id) {
-        return null;
+    public E find(Class<E> type, Object id){
+        E entity = entityManager.find(type, id);
+        entityManager.refresh(entity);
+        return entity;
     }
 
 //    @Override
-    public void delete(Object id) {
+    public void delete(Class<E> type,Object id) {
+        entityManager.getTransaction().begin();
+        Object reference = entityManager.getReference(type, id);
+        entityManager.remove(reference);
+        entityManager.getTransaction().commit();
 
     }
 
 //    @Override
-    public List<T> listAll() {
+    public List<E> listAll() {
         return null;
     }
 
