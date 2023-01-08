@@ -1,6 +1,7 @@
 package com.bookstore.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class JpaDAO<E> {
 
     }
 
+
 //    @Override
     public List<E> listAll() {
         return null;
@@ -59,4 +61,15 @@ public class JpaDAO<E> {
     public long count() {
         return 0;
     }
+
+    public List<E> findWithNamedQuery(String queryName){
+        Query query = entityManager.createNamedQuery(queryName);
+        return query.getResultList();
+    }
+
+    public long countWithNamedQuery(String queryName){
+        Query query = entityManager.createNamedQuery(queryName);
+        return (long) query.getSingleResult();
+    }
+
 }

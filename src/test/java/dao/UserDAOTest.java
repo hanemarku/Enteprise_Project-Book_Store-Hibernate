@@ -8,20 +8,22 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class UserDAOTest {
-    private static EntityManagerFactory entityManagerFactory;
-    private static EntityManager entityManager;
-    private static UserDAO userDAO;
-
-    @BeforeClass
-    private static void setUpClass(){
-        entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
-        entityManager = entityManagerFactory.createEntityManager();
-        userDAO = new UserDAO(entityManager);
-    }
+//    private static EntityManagerFactory entityManagerFactory;
+//    private static EntityManager entityManager;
+//    private static UserDAO userDAO;
+//
+//    @BeforeClass
+//    private static void setUpClass(){
+//        entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
+//        entityManager = entityManagerFactory.createEntityManager();
+//        userDAO = new UserDAO(entityManager);
+//    }
 
 
     @Test
@@ -43,6 +45,27 @@ public class UserDAOTest {
     }
 
     @Test
+    public void testUpdateUsers(){
+        Users user1 = new Users();
+        user1.setUserId(1);
+        user1.setEmail("testttttttt@gmail.com");
+        user1.setFullName("user testtttttttt");
+        user1.setPassword("passwordtestttt");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        UserDAO userDAO = new UserDAO(entityManager);
+        user1 = userDAO.update(user1);
+        String expected = "passwordtestttt";
+        String actual = user1.getPassword();
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void testGetUsersFound(){
         Integer userId = 1;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
@@ -56,9 +79,44 @@ public class UserDAOTest {
         assertNotNull(user);
     }
 
-    @Test( )
+
+    @Test
+    public void testListAll(){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UserDAO userDAO = new UserDAO(entityManager);
+        List<Users> usersList = userDAO.listAll();
+
+        for (Users user : usersList){
+            System.out.println(user);
+        }
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        assertTrue(usersList.size() > 0);
+    }
+
+    @Test
+    public void testCount(){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UserDAO userDAO = new UserDAO(entityManager);
+        long totalUsers = userDAO.count();
+
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        assertEquals(7, totalUsers);
+//        assertTrue(totalUsers == 7);
+    }
+
+    @Test
     public void testDeleteUser(){
-        Integer userId = 13;
+        Integer userId = 1;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         UserDAO userDAO = new UserDAO(entityManager);
@@ -78,9 +136,9 @@ public class UserDAOTest {
 //    }
 
 
-    @AfterClass
-    public static void tearDownClass(){
-        entityManager.close();
-        entityManagerFactory.close();
-    }
+//    @AfterClass
+//    public static void tearDownClass(){
+//        entityManager.close();
+//        entityManagerFactory.close();
+//    }
 }
