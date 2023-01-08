@@ -6,6 +6,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -18,7 +20,7 @@ public class AdminHomeServlet extends HttpServlet {
         super();
     }
 
-    protected void doGet(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String homePage = "index.jsp";
         RequestDispatcher dispatcher = request.getRequestDispatcher(homePage);
         dispatcher.forward(request,  response);
