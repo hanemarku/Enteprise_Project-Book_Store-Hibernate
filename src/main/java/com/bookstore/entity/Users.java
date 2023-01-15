@@ -2,12 +2,12 @@ package com.bookstore.entity;
 
 import jakarta.persistence.*;
 
-import javax.xml.namespace.QName;
-
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u ORDER BY u.fullName"),
-        @NamedQuery(name = "Users.countAll", query = "SELECT Count(*) FROM Users u")
+//        @NamedQuery(name = "Users.countAll", query = "SELECT Count(u) from Users u"),
+        @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
+
 })
 public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,18 @@ public class Users {
     @Basic
     @Column(name = "full_name")
     private String fullName;
+
+    public Users(String email, String password, String fullName) {
+        super();
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+    }
+
+    public Users(int userId, String email, String password, String fullName) {
+        this(email, password, fullName);
+        this.userId = userId;
+    }
 
     public int getUserId() {
         return userId;
@@ -55,6 +67,11 @@ public class Users {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+    public Users() {
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

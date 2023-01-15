@@ -4,13 +4,6 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
     <persistence-unit name="BookStoreWebsite">
-<!--        <properties>-->
-<!--            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/bookstoredb"/>-->
-<!--            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
-<!--            <property name="hibernate.connection.username" value="root"/>-->
-<!--            <property name="jakarta.persistence.jdbc.password" value=""/>-->
-<!--            <property name="hibernate.show_sql" value="true"/>-->
-<!--        </properties>-->
         <class>com.bookstore.entity.Book</class>
         <class>com.bookstore.entity.BookOrder</class>
         <class>com.bookstore.entity.Category</class>
@@ -18,12 +11,13 @@
         <class>com.bookstore.entity.OrderDetail</class>
         <class>com.bookstore.entity.Review</class>
         <class>com.bookstore.entity.Users</class>
+
+
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/bookstoredb"/>
-            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.username" value="root"/>
-            <property name="hibernate.connection.password" value=""/>
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bookstoredbenterprise"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
         </properties>
     </persistence-unit>
 </persistence>

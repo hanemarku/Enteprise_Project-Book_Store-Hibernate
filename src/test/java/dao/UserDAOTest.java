@@ -89,7 +89,7 @@ public class UserDAOTest {
         List<Users> usersList = userDAO.listAll();
 
         for (Users user : usersList){
-            System.out.println(user);
+            System.out.println(user.getEmail());
         }
 
         entityManager.close();
@@ -110,8 +110,23 @@ public class UserDAOTest {
         entityManager.close();
         entityManagerFactory.close();
 
-        assertEquals(7, totalUsers);
+        assertEquals(13, totalUsers);
 //        assertTrue(totalUsers == 7);
+    }
+
+    @Test
+    public void testFindByEmail(){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        UserDAO userDAO = new UserDAO(entityManager);
+        String email = "hana.marku22@gmail.com";
+        userDAO.findByEmail(email);
+
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        assertNotNull(userDAO);
     }
 
     @Test

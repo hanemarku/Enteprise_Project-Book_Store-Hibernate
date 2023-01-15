@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bookstoredb@localhost" uuid="6120ad78-67bb-4541-b934-0e8b24e29758">
+    <data-source source="LOCAL" name="bookstoredbenterprise@localhost" uuid="bb3a210c-e2cb-4487-91ab-663ed0d47a1f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/bookstoredb</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/bookstoredbenterprise</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="BookStoreWebsite/Hibernate" uuid="8f7768ba-1983-4947-bbf0-9d29ac664b0f">
+    <data-source source="LOCAL" name="BookStoreWebsite/Hibernate" uuid="177e080a-e415-43e7-bea6-24f40a575cae">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
@@ -16,7 +16,7 @@
 
 C:/Users/DELL/HibernateProject/bookstoreProjectEnterprise/src/main/resources/META-INF/persistence.xml</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/bookstoredb</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/bookstoredbenterprise</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

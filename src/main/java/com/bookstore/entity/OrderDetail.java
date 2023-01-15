@@ -3,8 +3,10 @@ package com.bookstore.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "order_detail", schema = "bookstoredb", catalog = "")
+@Table(name = "order_detail")
 public class OrderDetail {
+
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "order_id")
