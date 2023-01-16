@@ -14,17 +14,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserServices {
-    private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     private UserDAO userDAO;
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public UserServices(HttpServletRequest request, HttpServletResponse response) {
+    public UserServices(EntityManager entityManager, HttpServletRequest request, HttpServletResponse response) {
+        this.entityManager = entityManager;
         this.request = request;
         this.response = response;
-        entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
-        entityManager = entityManagerFactory.createEntityManager();
         userDAO = new UserDAO(entityManager);
     }
 
@@ -96,9 +94,6 @@ public class UserServices {
             listUsers(message);
 
         }
-
-
-
     }
 
     public void deleteUser() throws ServletException, IOException {

@@ -9,18 +9,21 @@
 <html>
 
 <head>
-    <title>Users</title>
+    <title>Categories</title>
     <style>
         div.dataTables_wrapper {
             margin-bottom: 3em;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
 <jsp:directive.include file="header.jsp"></jsp:directive.include>
 
-<h2>Users Management</h2>
-<a type="button" class="btn btn-success" href="user_form.jsp">Create new user</a>
+
+<h2>Category Management</h2>
+<a type="button" class="btn btn-success" href="category_form.jsp">Create new category</a>
 
 <c:if test="${message != null}">
     <div class="alert alert-success center m-2" role="alert">
@@ -33,21 +36,19 @@
     <tr>
         <th>Index</th>
         <th>ID</th>
-        <th>Email</th>
-        <th>Full Name</th>
+        <th>Name</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="user" items="${listUsers}" varStatus="status">
+    <c:forEach var="category" items="${listCategory}" varStatus="status">
     <tr>
         <td>${status.index + 1}</td>
-        <td>${user.userId}</td>
-        <td>${user.email}</td>
-        <td>${user.fullName}</td>
+        <td>${category.categoryId}</td>
+        <td>${category.name}</td>
         <td>
-            <a type="button" class="btn btn-warning" href="edit_user?id=${user.userId}">Edit</a>
-            <a type="button" class="btn btn-danger" href="javascript:confirmDelete(${user.userId})">Delete</a>
+            <a type="button" class="btn btn-warning" href="edit_category?id=${category.categoryId}">Edit</a>
+            <a type="button" class="btn btn-danger" href="javascript:confirmDeleteCategory(${category.categoryId})">Delete</a>
 
         </td>
     </tr>
@@ -67,12 +68,9 @@
         $('#myTable').DataTable();
     });
 
-    function confirmDelete(userId){
-        if(userId == 1){
-            Swal.fire('The default admin user account cannot be deleted');
-        }else{
+    function confirmDeleteCategory(categoryId){
             Swal.fire({
-                title: "Are you sure you want to delete the user with ID " + userId + " ?",
+                title: "Are you sure you want to delete the category with ID " + categoryId + " ?",
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -81,10 +79,9 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location = 'delete_user?id=' + userId;
+                    window.location = 'delete_category?id=' + categoryId;
                 }
             })
-        }
     }
 </script>
 

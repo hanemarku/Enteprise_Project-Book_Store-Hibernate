@@ -3,7 +3,9 @@ package com.bookstore.dao;
 import com.bookstore.entity.Users;
 import jakarta.persistence.EntityManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAO extends JpaDAO<Users> implements GenericDAO<Users>{
     public UserDAO(EntityManager entityManager) {
@@ -31,6 +33,17 @@ public class UserDAO extends JpaDAO<Users> implements GenericDAO<Users>{
 
     }
 
+    public boolean checkLogin(String email, String password){
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("email", email);
+        parameters.put("password", password);
+        List<Users> listUsers = super.findWithNamedQuery("Users.checkLogin", parameters);
+        if(listUsers.size() == 1){
+            return true;
+        }
+        return false;
+    }
+
     public Users findByEmail(String email){
         List<Users> listUsers = super.findWithNamedQuery("Users.findByEmail", "email", email);
 
@@ -47,9 +60,9 @@ public class UserDAO extends JpaDAO<Users> implements GenericDAO<Users>{
     }
 
 
-//    @Override
-//    public long count() {
-//        return super.countWithNamedQuery("Users.countAll");
-//
-//    }
+    @Override
+    public long count() {
+        return super.countWithNamedQuery("Users.countAll");
+
+    }
 }

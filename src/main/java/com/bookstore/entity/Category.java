@@ -3,6 +3,13 @@ package com.bookstore.entity;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c ORDER BY c.name"),
+        @NamedQuery(name = "Category.countAll", query = "SELECT Count(u) from Category u"),
+        @NamedQuery(name = "Category.findByName", query = "SELECT c from Category c where c.name = :name"),
+
+
+})
 public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -11,6 +18,13 @@ public class Category {
     @Basic
     @Column(name = "name")
     private String name;
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category() {
+    }
 
     public int getCategoryId() {
         return categoryId;
