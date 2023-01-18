@@ -14,6 +14,11 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/solid.js" integrity="sha384-/BxOvRagtVDn9dJ+JGCtcofNXgQO/CCCVKdMfL115s3gOgQxWaX/tSq5V8dRgsbc" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/fontawesome.js" integrity="sha384-dPBGbj4Uoy1OOpM4+aRGfAOc0W37JkROT+3uynUgTHZCHZNMHfGXsmmvYTffZjYO" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -40,6 +45,8 @@
 
 <nav class="navbar navbar-expand-custom navbar-mainbg">
     <a class="navbar-brand navbar-logo" href="#"> <img style="width: 120px;" src="../images/adrion-ltd-logo.jpg"></a>
+    <a class="navbar-brand navbar-logo" href="#"> Welcome, <c:out value="${sessionScope.useremail}" /> |  <a href="logout">Logout</a></a>
+
     <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
     </button>
@@ -47,24 +54,28 @@
         <ul class="navbar-nav ml-auto">
             <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                <a class="nav-link" href="javascript:void(0);">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="list_users"><i class="far fa-address-book"></i>Users</a>
+                <a class="nav-link" href="list_users"> &nbsp; <i class="fas fa-user"></i>Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="list_category"><i class="far fa-clone"></i>Categories</a>
+                <a class="nav-link" href="list_category">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-bars"></i>Categories</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="list_category"><i class="far fa-calendar-alt"></i>Customers</a>
+                <a class="nav-link" href="list_category">&nbsp;<i class="fas fa-users"></i>Customers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Reviews</a>
+                <a class="nav-link" href="javascript:void(0);">&nbsp;<i class="fas fa-eye"></i></i>Reviews</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Orders</a>
+                <a class="nav-link" href="javascript:void(0);">&nbsp;<i class="fas fa-truck"></i>Orders</a>
             </li>
         </ul>
     </div>
 </nav>
+
+<h1>test</h1>
+
+<i class="fa-duotone fa-users"></i>
 

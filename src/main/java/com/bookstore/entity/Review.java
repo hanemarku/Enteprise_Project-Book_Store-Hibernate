@@ -3,6 +3,7 @@ package com.bookstore.entity;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class Review {
@@ -27,7 +28,7 @@ public class Review {
     private String comment;
     @Basic
     @Column(name = "review_time")
-    private Timestamp reviewTime;
+    private Date reviewTime;
 
     public int getReviewId() {
         return reviewId;
@@ -77,8 +78,12 @@ public class Review {
         this.comment = comment;
     }
 
-    public Timestamp getReviewTime() {
+    public Date getReviewTime() {
         return reviewTime;
+    }
+
+    public void setReviewTime(Date reviewTime) {
+        this.reviewTime = reviewTime;
     }
 
     public void setReviewTime(Timestamp reviewTime) {

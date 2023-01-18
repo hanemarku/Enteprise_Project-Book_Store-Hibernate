@@ -28,7 +28,7 @@ class CategoryDAOTest extends BaseDAOTest{
 
     @Test
     void create() {
-        Category newCat = new Category("Python");
+        Category newCat = new Category("Pyython");
         Category category = categoryDAO.create(newCat);
         assertTrue(category != null && category.getCategoryId() > 0);
     }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: DELL
@@ -19,10 +20,14 @@
   <div class="container w-25">
       <h3>Admin Store Administration</h3>
       <p>Admin Login</p>
-
+      <c:if test="${message != null}">
+          <div class="alert alert-warning center m-2" role="alert">
+                  ${message}
+          </div>
+      </c:if>
 <%--    <div class="alert alert-danger" id="validations" role="alert"></div>--%>
 
-    <form id="formLogin" method="Post" action="login">
+    <form id="formLogin" method="POST" action="login">
       <div class="mb-3">
         <label for="email" class="form-label">Email address</label>
         <input type="email" class="form-control" id="email" placeholder="email@example.com" name="email">

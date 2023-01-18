@@ -2,11 +2,17 @@ package com.bookstore.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
+
 import java.util.Arrays;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Book.findAll", query = "select b from Book b"),
+        @NamedQuery(name = "Book.findByTitle", query = "select b from Book b where b.title = :title"),
+        @NamedQuery(name = "Book.countAll", query = "select count(b) from Book b")
+
+})
 public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -35,10 +41,15 @@ public class Book {
     private Date publishDate;
     @Basic
     @Column(name = "last_update_time")
-    private Timestamp lastUpdateTime;
+    private Date lastUpdateTime;
     @Basic
     @Column(name = "category_id")
     private int categoryId;
+
+//    @OneToMany
+//    private Set<Review> reviews = new HashSet<Review>(0);
+//    @OneToMany
+//    private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
     public int getBookId() {
         return bookId;
@@ -104,11 +115,11 @@ public class Book {
         this.publishDate = publishDate;
     }
 
-    public Timestamp getLastUpdateTime() {
+    public Date getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(Timestamp lastUpdateTime) {
+    public void setLastUpdateTime(Date lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
