@@ -22,6 +22,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <link href="../css/user_form.css" rel="stylesheet" type="text/css">
 <link href="../css/category_form.css" rel="stylesheet" type="text/css">
@@ -63,7 +65,7 @@
                 <a class="nav-link" href="list_category">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-bars"></i>Categories</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="list_category">&nbsp;<i class="fas fa-users"></i>Customers</a>
+                <a class="nav-link" href="list_books">&nbsp;<i class="fas fa-users"></i>Books</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);">&nbsp;<i class="fas fa-eye"></i></i>Reviews</a>
@@ -75,7 +77,6 @@
     </div>
 </nav>
 
-<h1>test</h1>
 
 <i class="fa-duotone fa-users"></i>
 

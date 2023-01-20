@@ -2,6 +2,7 @@ package com.bookstore.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Base64;
 import java.util.Date;
 
 import java.util.Arrays;
@@ -10,7 +11,9 @@ import java.util.Arrays;
 @NamedQueries({
         @NamedQuery(name = "Book.findAll", query = "select b from Book b"),
         @NamedQuery(name = "Book.findByTitle", query = "select b from Book b where b.title = :title"),
-        @NamedQuery(name = "Book.countAll", query = "select count(b) from Book b")
+        @NamedQuery(name = "Book.countAll", query = "select count(b) from Book b"),
+        @NamedQuery(name = "Book.findByCategory", query = "select b from Book b join Category c on b.categoryId = c.categoryId and c.categoryId = :catId"),
+        @NamedQuery(name = "Book.listNewBooks", query = "select b from Book b order by b.publishDate desc ")
 
 })
 public class Book {
@@ -27,9 +30,13 @@ public class Book {
     @Basic
     @Column(name = "description")
     private String description;
+
     @Basic
     @Column(name = "isbn")
     private String isbn;
+
+
+    private transient String base64Image;
     @Basic
     @Column(name = "image")
     private byte[] image;
@@ -45,6 +52,7 @@ public class Book {
     @Basic
     @Column(name = "category_id")
     private int categoryId;
+
 
 //    @OneToMany
 //    private Set<Review> reviews = new HashSet<Review>(0);
@@ -131,6 +139,18 @@ public class Book {
         this.categoryId = categoryId;
     }
 
+    @Transient
+    public String getBase64Image(){
+        this.base64Image = Base64.getEncoder().encodeToString(this.image);
+        return this.base64Image;
+    }
+
+    @Transient
+    public void setBase64Image(String base64Image){
+        this.base64Image = base64Image;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -138,20 +158,31 @@ public class Book {
 
         Book book = (Book) o;
 
-        if (bookId != book.bookId) return false;
-        if (Double.compare(book.price, price) != 0) return false;
-        if (categoryId != book.categoryId) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-        if (description != null ? !description.equals(book.description) : book.description != null) return false;
-        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
-        if (!Arrays.equals(image, book.image)) return false;
-        if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
-        if (lastUpdateTime != null ? !lastUpdateTime.equals(book.lastUpdateTime) : book.lastUpdateTime != null)
-            return false;
-
-        return true;
+        return bookId == book.bookId;
     }
+
+    //    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Book book = (Book) o;
+//
+//        if (bookId != book.bookId) return false;
+//        if (Double.compare(book.price, price) != 0) return false;
+//        if (categoryId != book.categoryId) return false;
+//        if (title != null ? !title.equals(book.title) : book.title != null) return false;
+//        if (author != null ? !author.equals(book.author) : book.author != null) return false;
+//        if (description != null ? !description.equals(book.description) : book.description != null) return false;
+//        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
+//        if (!Arrays.equals(image, book.image)) return false;
+//        if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
+//        if (lastUpdateTime != null ? !lastUpdateTime.equals(book.lastUpdateTime) : book.lastUpdateTime != null)
+//            return false;
+//
+//        return true;
+//    }
+
 
     @Override
     public int hashCode() {
