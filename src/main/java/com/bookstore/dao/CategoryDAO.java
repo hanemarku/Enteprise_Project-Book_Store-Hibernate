@@ -8,8 +8,7 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 public class CategoryDAO extends JpaDAO<Category> implements GenericDAO<Category>{
-    public CategoryDAO(EntityManager entityManager) {
-        super(entityManager);
+    public CategoryDAO() {
     }
     @Override
     public Category create(Category category) {

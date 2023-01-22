@@ -12,11 +12,12 @@ import java.util.Arrays;
         @NamedQuery(name = "Book.findAll", query = "select b from Book b"),
         @NamedQuery(name = "Book.findByTitle", query = "select b from Book b where b.title = :title"),
         @NamedQuery(name = "Book.countAll", query = "select count(b) from Book b"),
-        @NamedQuery(name = "Book.findByCategory", query = "select b from Book b join Category c on b.categoryId = c.categoryId and c.categoryId = :catId"),
-        @NamedQuery(name = "Book.listNewBooks", query = "select b from Book b order by b.publishDate desc ")
+        @NamedQuery(name = "Book.findByCategory", query = "select b from Book b join Category c on b.category.categoryId = c.categoryId and c.categoryId = :catId"),
+        @NamedQuery(name = "Book.listNew", query = "select b from Book b order by b.publishDate desc "),
+        @NamedQuery(name = "Book.search", query = "select b from Book b where b.title LIKE CONCAT('%',:keyword,'%') OR b.author LIKE CONCAT('%',:keyword,'%')")
 
 })
-public class Book {
+public class Book  implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "book_id")
@@ -49,9 +50,12 @@ public class Book {
     @Basic
     @Column(name = "last_update_time")
     private Date lastUpdateTime;
-    @Basic
-    @Column(name = "category_id")
-    private int categoryId;
+//    @Basic
+//    @Column(name = "category_id")
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
 
 //    @OneToMany
@@ -131,12 +135,13 @@ public class Book {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+
+    public Category getCategory() {
+        return this.category;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Transient
@@ -198,7 +203,7 @@ public class Book {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
         result = 31 * result + (lastUpdateTime != null ? lastUpdateTime.hashCode() : 0);
-        result = 31 * result + categoryId;
+
         return result;
     }
 }

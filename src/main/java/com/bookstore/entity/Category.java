@@ -2,6 +2,9 @@ package com.bookstore.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c ORDER BY c.name"),
@@ -10,7 +13,7 @@ import jakarta.persistence.*;
 
 
 })
-public class Category {
+public class Category implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "category_id")
@@ -19,6 +22,9 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private Set<Book> books = new HashSet<Book>(0);
+
     public Category(String name) {
         this.name = name;
     }
@@ -26,6 +32,13 @@ public class Category {
     public Category() {
     }
 
+    public Set<Book> getBooks() {
+        return this.books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
     public int getCategoryId() {
         return categoryId;
     }

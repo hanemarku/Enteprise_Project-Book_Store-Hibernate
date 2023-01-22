@@ -3,9 +3,16 @@ package com.bookstore.entity;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
-public class Customer {
+@NamedQueries({
+        @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c ORDER BY c.registerDate DESC"),
+        @NamedQuery(name = "Customer.findByEmail", query = "SELECT c FROM Customer c WHERE c.email = :email"),
+        @NamedQuery(name = "Customer.countAll", query = "SELECT COUNT(c.email) FROM Customer c"),
+        @NamedQuery(name = "Customer.checkLogin", query = "SELECT c FROM Customer c WHERE c.email = :email AND c.password = :pass")
+})
+public class Customer implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "customer_id")
@@ -36,7 +43,10 @@ public class Customer {
     private String password;
     @Basic
     @Column(name = "register_date")
-    private Timestamp registerDate;
+    private Date registerDate;
+
+    public Customer() {
+    }
 
     public int getCustomerId() {
         return customerId;
@@ -110,11 +120,11 @@ public class Customer {
         this.password = password;
     }
 
-    public Timestamp getRegisterDate() {
+    public Date getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Timestamp registerDate) {
+    public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
 

@@ -20,18 +20,16 @@ import java.util.Date;
 import java.util.List;
 
 public class BookServices {
-    private EntityManager entityManager;
     private BookDAO bookDAO;
     private CategoryDAO categoryDAO;
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public BookServices(EntityManager entityManager, HttpServletRequest request, HttpServletResponse response) {
-        this.entityManager = entityManager;
+    public BookServices(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
-        bookDAO = new BookDAO(entityManager);
-        categoryDAO = new CategoryDAO(entityManager);
+        bookDAO = new BookDAO();
+        categoryDAO = new CategoryDAO();
     }
 
     public void listBooks() throws ServletException, IOException {
@@ -119,7 +117,7 @@ public class BookServices {
         book.setPublishDate(publishDate);
 
         Category category = categoryDAO.get(categoryId);
-        book.setCategoryId(category.getCategoryId());
+        book.setCategory(category);
 
         Part part = request.getPart("bookImage");
         if(part != null && part.getSize() > 0){
@@ -140,7 +138,7 @@ public class BookServices {
 
         Book existBook = bookDAO.get(bookId);
         Book bookByTitle = bookDAO.findByTitle(title);
-        if(!existBook.equals(bookByTitle)){
+        if(bookByTitle != null && !existBook.equals(bookByTitle)){
             String message = "Could not update book because there is another book having the same title";
             listBooks(message);
             return;
@@ -161,10 +159,60 @@ public class BookServices {
     public void listBooksByCategory() throws ServletException, IOException {
         int categoryId = Integer.parseInt(request.getParameter("id"));
         List<Book> listBooks = bookDAO.listByCategory(categoryId);
+        Category category = categoryDAO.get(categoryId);
+
+        request.setAttribute("category", category);
         request.setAttribute("listBooks", listBooks);
 
         String listPage = "frontend/books_list_by_category.jsp";
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(listPage);
         requestDispatcher.forward(request, response);
     }
+
+    public void viewBookDetails() throws ServletException, IOException {
+        Integer bookId = Integer.parseInt(request.getParameter("id"));
+        Book book = bookDAO.get(bookId);
+
+        request.setAttribute("book", book);
+
+        String detailPage = "frontend/book_detail.jsp";
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(detailPage);
+        requestDispatcher.forward(request, response);
+    }
+
+    public void search() throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+        List<Book> result = null;
+
+        if(keyword.equals("")){
+            result = bookDAO.listAll();
+        }else{
+            result = bookDAO.search(keyword);
+        }
+        request.setAttribute("result", result);
+        request.setAttribute("keyword", keyword);
+        String resultPage = "frontend/search_result.jsp";
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(resultPage);
+        requestDispatcher.forward(request, response);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

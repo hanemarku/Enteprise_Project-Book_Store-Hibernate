@@ -1,4 +1,4 @@
-package com.bookstore.controller.admin.book;
+package com.bookstore.controller.fronted;
 
 import com.bookstore.controller.BaseServlet;
 import com.bookstore.service.BookServices;
@@ -8,12 +8,12 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet("/admin/new_book")
-public class NewBookServlet extends HttpServlet {
+@WebServlet("/view_book")
+public class ViewBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookServices bookServices = new BookServices(request, response);
-        bookServices.showBookNewForm();
+        bookServices.viewBookDetails();
     }
 
 }

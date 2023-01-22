@@ -19,16 +19,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class BookDAOTest extends BaseDAOTest{
+public class BookDAOTest{
     private static BookDAO bookDAO;
     @BeforeEach
     public void setUp() {
-        super.setUp();
-        bookDAO = new BookDAO(entityManager);
+        bookDAO = new BookDAO();
     }
     @AfterEach
     void tearDown() {
-        super.tearDown();
+
     }
 
     @Test
@@ -36,7 +35,7 @@ public class BookDAOTest extends BaseDAOTest{
         Book newBook = new Book();
         Category category = new Category("Advanced Java");
         category.setCategoryId(2);
-        newBook.setCategoryId(category.getCategoryId());
+        newBook.setCategory(category);
         newBook.setTitle("Effecyyyyyytiveuu uuuJava 2nd Editfeerion");
         newBook.setAuthor("Joshua Bloch");
         newBook.setDescription("New coverage of generics");
@@ -58,7 +57,7 @@ public class BookDAOTest extends BaseDAOTest{
 
         Category category = new Category("Advanced Java");
         category.setCategoryId(2);
-        existBook.setCategoryId(category.getCategoryId());
+        existBook.setCategory(category);
         existBook.setTitle("testtest");
         existBook.setAuthor("Joshua Bloch");
         existBook.setDescription("New coverage of generics");
@@ -111,4 +110,21 @@ public class BookDAOTest extends BaseDAOTest{
         List<Book> bookList = bookDAO.listByCategory(catId);
         assertTrue(bookList.size() > 0);
     }
+
+    @Test
+    public void testListNewBook(){
+        List<Book> newBookList = bookDAO.listNewBooks();
+        assertEquals(newBookList.size(), 4);
+    }
+
+    @Test
+    public void testSearchBookTitle(){
+        String keyword = "Java";
+        List<Book> search = bookDAO.search(keyword);
+        for (Book book : search){
+            System.out.println(book.getTitle());
+        }
+        assertEquals(4, search.size());
+    }
+
 }

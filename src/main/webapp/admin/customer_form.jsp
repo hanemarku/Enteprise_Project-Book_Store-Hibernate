@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: DELL
+  customer: DELL
   Date: 1/18/2023
   Time: 8:31 PM
   To change this template use File | Settings | File Templates.
@@ -14,12 +14,6 @@
     <title>Create New Book</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<%--    <link rel="stylesheet" href="/path/to/font-awesome.min.css" />--%>
-    <link rel="stylesheet" href="../css/richtext.min.css">
-<%--    <script src="/path/to/cdn/jquery.min.js"></script>--%>
-    <script src="../js/jquery.richtext.min.js"></script>
-<%--    <script src="../js/"></script>--%>
-
     <script type="text/javascript" src="../js/jquery-ui.min.css"></script>
 
 
@@ -532,6 +526,7 @@
 </style>
 <body>
 <jsp:directive.include file="header.jsp"></jsp:directive.include>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
 <div class="page-wrapper bg-red p-t-180 p-b-100 font-robo">
@@ -539,92 +534,61 @@
         <div class="card card-2">
             <div class="card-heading"></div>
             <div class="card-body">
-                <c:if test="${user != null}">
-                    <h2>Edit Book</h2>
+                <c:if test="${customer != null}">
+                    <h2>Edit Customer</h2>
                 </c:if>
-                <c:if test="${user == null}">
-                    <h2 class="title">Create New Book</h2>
+                <c:if test="${customer == null}">
+                    <h2 class="title">Create New Customer</h2>
                 </c:if>
 
-                <c:if test="${book != null}">
-                <form action="update_book" method="POST" id="bookForm" enctype="multipart/form-data">
-                    <input type="hidden" name="bookId" value="${book.bookId}" />
+                <c:if test="${customer != null}">
+                <form action="update_customer" method="POST" >
+                    <input type="hidden" name="customerId" value="${customer.customerId}">
                     </c:if>
-                    <c:if test="${book == null}">
-                    <form action="create_book" method="POST" id="bookForm" enctype="multipart/form-data">
+                    <c:if test="${customer == null}">
+                    <form action="create_customer" method="POST" >
+
                         </c:if>
-                    <div class="row">
-                        <div class="input-group col">
-                            <input class="input--style-2" type="text" placeholder="Title" name="title" value="${book.title}" required>
-                        </div>
-                        <div class="input-group col">
-                            <input class="input--style-2" type="text" placeholder="Author" name="author" value="${book.author}" required>
-                        </div>
+                    <div class="input-group">
+                    <input class="input--style-2" id="email" type="email" placeholder="Email" name="email" value="${customer.email}">
+                    </label><span class="error" id='message3'></span></span>
                     </div>
-                    <div class="row row-space">
-                    <div class="col-2">
-                        <div class="input-group">
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="category">
-                                    <c:forEach items="${listCategory}" var="category">
-                                        <c:if test="${category.categoryId eq book.category.categoryId}">
-                                            <option value="${category.categoryId}" selected>
-                                        </c:if>
-                                        <c:if test="${category.categoryId ne book.category.categoryId}">
-                                            <option value="${category.categoryId}">
-                                        </c:if>
-                                        ${category.name}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <div class="select-dropdown"></div>
-                            </div>
-                        </div>
+                    <div class="input-group">
+                    <input class="input--style-2" type="text" id="fullname" placeholder="Full Name" name="fullname" value="${customer.fullname}" required>
+                    </label><span class="error" id='message6'></span></span>
+
                     </div>
+                    <div class="input-group">
+                    <input class="input--style-2" type="password" id="password" placeholder="Password" name="password" value="${customer.password}"  required>
+                    </label><span class="error" id='message1'></span></span>
                     </div>
-                    <div class="row row-space">
-                        <div class="col">
+                    <div class="input-group">
+                    <input class="input--style-2" type="password" id="confirm_pass" placeholder="Confirm Password" name="password" required>
+                    </label><span class="error" id='message'></span></span>
+                    </div>
+                    <div class="input-group">
+                    <input class="input--style-2" type="text" id="phone" placeholder="Phone Number" name="phone" value="${customer.phone}" required>
+                    </label><span class="error" id='message4'></span></span>
+                    </div>
+                    <div class="input-group">
+                    <input class="input--style-2" type="text" id="address" placeholder="Address" name="address" value="${customer.address}" required>
+                    </label><span class="error" id='message5'></span></span>
+                    </div>
+                    <div class="input-group">
+                    <input class="input--style-2" type="text" id="zip" placeholder="Zip Code" name="zip" value="${customer.zipcode}" required>
+                    </label><span class="error" id='message2'></span></span>
+                    </div>
                             <div class="input-group">
-                                <input  type="text" placeholder="Publish Date" name="publishDate" id="publishDate"
-                                        value="<fmt:formatDate pattern="MM/dd/yyyy" value='${book.publishDate}'/>" required>
+                                <input class="input--style-2" type="text" id="city" placeholder="Country" name="city" value="${customer.city}" required>
+                                </label><span class="error" id='message8'></span></span>
                             </div>
-                        </div>
+                    <div class="input-group">
+                    <input class="input--style-2" type="text" id="country" placeholder="Country" name="country" value="${customer.country}" required>
+                    </label><span class="error" id='message7'></span></span>
                     </div>
-                    <div class="row row-space">
-                        <div class="col">
-                            <div class="input-group">
-                                <input class="input--style-2" type="text" placeholder="ISBN" name="isbn" value="${book.isbn}" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-space">
-                        <div class="col">
-                            <div class="input-group">
-                                <input class="input--style-2" type="text" placeholder="price" name="price" value="${book.price}" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-space">
-                        <div class="col">
-                            <div class="input-group">
-                                <span>Book Image</span>
-                                <input class="input--style-2" type="file" id="bookImage" name="bookImage">
-                                <img id="thumbnail" src="data:image/jpg;base64,${book.base64Image}" alt="Image Preview" style="width: 40%; margin-top: 10px;"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-space">
-                        <div class="col">
-                            <div class="input-group">
-                                <span>Description</span>
-                                <textarea rows="5" cols="50" class="description" name="description" id="description" required>${book.description}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-t-30">
-                        <h1>${test}</h1>
-                        <button class="btn btn--radius btn--green" type="submit">Create</button>
-                    </div>
+
+                    <button type="submit" class="btn btn-danger btn-block">Edit</button>
+                            <button class="btn btn--radius btn--green" onclick="history.go(-1);">Cancel</button>
                 </form>
             </div>
         </div>
@@ -650,76 +614,6 @@
         reader.readAsDataURL(file);
     }
 
-    // (function ($) {
-    //     'use strict';
-    //     /*==================================================================
-    //         [ Daterangepicker ]*/
-    //     try {
-    //         $('.js-datepicker').daterangepicker({
-    //             "singleDatePicker": true,
-    //             "showDropdowns": true,
-    //             "autoUpdateInput": false,
-    //             locale: {
-    //                 format: 'DD/MM/YYYY'
-    //             },
-    //         });
-    //
-    //         var myCalendar = $('.js-datepicker');
-    //         var isClick = 0;
-    //
-    //         $(window).on('click',function(){
-    //             isClick = 0;
-    //         });
-    //
-    //         $(myCalendar).on('apply.daterangepicker',function(ev, picker){
-    //             isClick = 0;
-    //             $(this).val(picker.startDate.format('DD/MM/YYYY'));
-    //
-    //         });
-    //
-    //         $('.js-btn-calendar').on('click',function(e){
-    //             e.stopPropagation();
-    //
-    //             if(isClick === 1) isClick = 0;
-    //             else if(isClick === 0) isClick = 1;
-    //
-    //             if (isClick === 1) {
-    //                 myCalendar.focus();
-    //             }
-    //         });
-    //
-    //         $(myCalendar).on('click',function(e){
-    //             e.stopPropagation();
-    //             isClick = 1;
-    //         });
-    //
-    //         $('.daterangepicker').on('click',function(e){
-    //             e.stopPropagation();
-    //         });
-    //
-    //
-    //     } catch(er) {console.log(er);}
-    //     /*[ Select 2 Config ]
-    //         ===========================================================*/
-    //
-    //     try {
-    //         var selectSimple = $('.js-select-simple');
-    //
-    //         selectSimple.each(function () {
-    //             var that = $(this);
-    //             var selectBox = that.find('select');
-    //             var selectDropdown = that.find('.select-dropdown');
-    //             selectBox.select2({
-    //                 dropdownParent: selectDropdown
-    //             });
-    //         });
-    //
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //
-    //
-    // })(jQuery);
 </script>
 </html>
 

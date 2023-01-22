@@ -2,6 +2,8 @@ package com.bookstore.dao;
 
 import com.bookstore.entity.Users;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 
 import java.io.ObjectStreamClass;
@@ -10,28 +12,33 @@ import java.util.Map;
 import java.util.Set;
 
 public class JpaDAO<E> {
-    protected EntityManager entityManager;
+    private static EntityManagerFactory entityManagerFactory;
 
-    public JpaDAO(EntityManager entityManager) {
-        super();
-        this.entityManager = entityManager;
+    static {
+        entityManagerFactory = Persistence.createEntityManagerFactory("BookStoreWebsite");
     }
 
-//    @Override
+    public JpaDAO() {
+    }
+
     public E create(E entity) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.flush();
         entityManager.refresh(entity);
         entityManager.getTransaction().commit();
+        entityManager.close();
         return entity;
     }
 
 //    @Override
     public E update(E entity) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entity = entityManager.merge(entity);
         entityManager.getTransaction().commit();
+        entityManager.close();
         return entity;
     }
 
@@ -41,17 +48,23 @@ public class JpaDAO<E> {
     }
 
     public E find(Class<E> type, Object id){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         E entity = entityManager.find(type, id);
-        entityManager.refresh(entity);
+        if (entity != null) {
+            entityManager.refresh(entity);
+        }
+        entityManager.close();
         return entity;
     }
 
 //    @Override
     public void delete(Class<E> type,Object id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         Object reference = entityManager.getReference(type, id);
         entityManager.remove(reference);
         entityManager.getTransaction().commit();
+        entityManager.close();
 
     }
 
@@ -66,33 +79,98 @@ public class JpaDAO<E> {
         return 0;
     }
 
-    public List<E> findWithNamedQuery(String queryName){
+    public List<E> findWithNamedQuery(String queryName) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         Query query = entityManager.createNamedQuery(queryName);
-        return query.getResultList();
+        List<E> result = query.getResultList();
+
+        entityManager.close();
+
+        return result;
     }
 
-    public List<E> findWithNamedQuery(String queryName, Map<String, Object> parameters){
-        Query query = entityManager.createNamedQuery(queryName);
-        Set<Map.Entry<String, Object>>  setParameters = parameters.entrySet();
+    public List<E> findWithNamedQuery(String queryName, int firstResult, int maxResult) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        for(Map.Entry<String, Object> entry : setParameters){
+        Query query = entityManager.createNamedQuery(queryName);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResult);
+
+        List<E> result = query.getResultList();
+
+        entityManager.close();
+
+        return result;
+    }
+
+    public List<Object[]> findWithNamedQueryObjects(String queryName, int firstResult, int maxResult) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Query query = entityManager.createNamedQuery(queryName);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResult);
+
+        List<Object[]> result = query.getResultList();
+
+        entityManager.close();
+
+        return result;
+    }
+
+    public List<E> findWithNamedQuery(String queryName, String paramName, Object paramValue) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNamedQuery(queryName);
+
+        query.setParameter(paramName, paramValue);
+
+        List<E> result = query.getResultList();
+
+        entityManager.close();
+
+        return result;
+    }
+
+    public List<E> findWithNamedQuery(String queryName, Map<String, Object> parameters) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNamedQuery(queryName);
+
+        Set<Map.Entry<String, Object>> setParameters = parameters.entrySet();
+
+        for (Map.Entry<String, Object> entry : setParameters) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
 
-        return query.getResultList();
+        List<E> result = query.getResultList();
 
-    }
+        entityManager.close();
 
-    public List<E> findWithNamedQuery(String queryName, String paramName, Object paramValue){
-        Query query = entityManager.createNamedQuery(queryName);
-        query.setParameter(paramName, paramValue);
-        return query.getResultList();
-
+        return result;
     }
 
     public long countWithNamedQuery(String queryName){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createNamedQuery(queryName);
-        return (long) query.getSingleResult();
+        long result = (long) query.getSingleResult();
+        entityManager.close();
+        return result;
+    }
+
+    public long countWithNamedQuery(String queryName, String paramName, Object paramValue) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createNamedQuery(queryName);
+        query.setParameter(paramName, paramValue);
+
+        long result = (long) query.getSingleResult();
+        entityManager.close();
+
+        return result;
+    }
+
+    public void close() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 
 }

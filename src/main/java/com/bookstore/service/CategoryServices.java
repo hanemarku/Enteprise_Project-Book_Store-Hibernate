@@ -15,16 +15,14 @@ import java.io.IOException;
 import java.util.List;
 
 public class CategoryServices {
-    private EntityManager entityManager;
     private CategoryDAO categoryDAO;
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public CategoryServices(EntityManager entityManager ,HttpServletRequest request, HttpServletResponse response) {
-        this.entityManager = entityManager;
+    public CategoryServices(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
-        categoryDAO = new CategoryDAO(entityManager);
+        categoryDAO = new CategoryDAO();
     }
 
     public void listCategories() throws ServletException, IOException {

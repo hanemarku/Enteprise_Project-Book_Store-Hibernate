@@ -14,10 +14,10 @@ import java.io.IOException;
         maxFileSize = 1024 * 300,
         maxRequestSize = 1024 * 1024
 )
-public class EditBookServlet extends BaseServlet {
+public class EditBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookServices bookServices = new BookServices(entityManager, request, response);
+        BookServices bookServices = new BookServices(request, response);
         bookServices.editBook();
     }
 

@@ -9,10 +9,10 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
 @WebServlet("/admin/create_category")
-public class CreateCategoryServlet extends BaseServlet {
+public class CreateCategoryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CategoryServices services = new CategoryServices(entityManager, request, response);
+        CategoryServices services = new CategoryServices(request, response);
         services.createCategory();
     }
 }

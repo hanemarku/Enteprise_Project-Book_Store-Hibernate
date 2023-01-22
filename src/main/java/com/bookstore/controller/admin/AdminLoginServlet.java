@@ -9,14 +9,14 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
 @WebServlet("/admin/login")
-public class AdminLoginServlet extends BaseServlet {
+public class AdminLoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        String email = request.getParameter("email");
 //        String password = request.getParameter("password");
 //        response.getWriter().println(email + " , " + password);
 
-        UserServices userServices = new UserServices(entityManager, request, response);
+        UserServices userServices = new UserServices(request, response);
         userServices.login();
     }
 }

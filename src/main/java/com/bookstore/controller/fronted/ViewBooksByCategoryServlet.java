@@ -9,10 +9,10 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
 @WebServlet("/view_category")
-public class ViewBooksByCategoryServlet extends BaseServlet {
+public class ViewBooksByCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookServices bookServices = new BookServices(entityManager, request, response);
+        BookServices bookServices = new BookServices(request, response);
         bookServices.listBooksByCategory();
     }
 }

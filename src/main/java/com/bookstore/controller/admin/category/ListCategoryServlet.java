@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 
 @WebServlet("/admin/list_category")
-public class ListCategoryServlet extends BaseServlet {
+public class ListCategoryServlet extends HttpServlet {
 
     public ListCategoryServlet() {
         super();
@@ -18,7 +18,7 @@ public class ListCategoryServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().println("list category");
-        CategoryServices categoryServices = new CategoryServices(entityManager,request, response);
+        CategoryServices categoryServices = new CategoryServices(request, response);
         categoryServices.listCategories();
     }
 

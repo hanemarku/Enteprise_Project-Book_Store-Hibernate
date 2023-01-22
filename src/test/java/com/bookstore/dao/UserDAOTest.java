@@ -15,17 +15,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class UserDAOTest extends BaseDAOTest{
+public class UserDAOTest {
     private static UserDAO userDAO;
     @BeforeEach
     public void setUp() {
-        super.setUp();
-        userDAO= new UserDAO(entityManager);
+        userDAO= new UserDAO();
     }
 
     @AfterEach
     void tearDown() {
-        super.tearDown();
+
     }
 
     @Test

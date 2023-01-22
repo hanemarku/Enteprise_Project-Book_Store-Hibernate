@@ -87,6 +87,7 @@
                     <img  src="data:image/jpg;base64,${book.base64Image}"  alt="photo">
                     <h5 class="card-title mt-3 mb-3">${book.title}</h5>
                     <p class="card-text">${book.description}</p>
+                    <a type="button" class="btn btn--radius" href="view_book?id=${book.bookId}">Book Details</a>
                 </div>
         </div>
         </c:forEach>

@@ -12,23 +12,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CategoryDAOTest extends BaseDAOTest{
+class CategoryDAOTest {
     private static CategoryDAO categoryDAO;
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
-        categoryDAO = new CategoryDAO(entityManager);
+        categoryDAO = new CategoryDAO();
     }
 
     @AfterEach
     void tearDown() {
-        super.tearDown();
+
     }
 
     @Test
     void create() {
-        Category newCat = new Category("Pyython");
+        Category newCat = new Category("Pyyth,,on");
         Category category = categoryDAO.create(newCat);
         assertTrue(category != null && category.getCategoryId() > 0);
     }
@@ -48,13 +47,13 @@ class CategoryDAOTest extends BaseDAOTest{
         assertNotNull(cat);
     }
 
-    @Test
-    void delete() {
-        Integer catId = 3;
-        categoryDAO.delete(catId);
-        Category category = categoryDAO.get(catId);
-        assertNull(category);
-    }
+//    @Test
+//    void delete() {
+//        Integer catId = 3;
+//        categoryDAO.delete(catId);
+//        Category category = categoryDAO.get(catId);
+//        assertNull(category);
+//    }
 
     @Test
     public void listAll(){

@@ -1,14 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: DELL
-  Date: 1/18/2023
-  Time: 7:27 PM
+  Date: 1/12/2023
+  Time: 12:23 PM
   To change this template use File | Settings | File Templates.
 --%>
+
 <html>
 
 <head>
-    <title>Categories</title>
+    <title>Customers</title>
     <style>
         div.dataTables_wrapper {
             margin-bottom: 3em;
@@ -21,8 +22,8 @@
 <jsp:directive.include file="header.jsp"></jsp:directive.include>
 
 
-<h2>Books Management</h2>
-<a type="button" class="btn btn-success" href="book_form.jsp">Create new book</a>
+<h2>Category Management</h2>
+<a type="button" class="btn btn-success" href="customer_form.jsp">Create new customer</a>
 
 <c:if test="${message != null}">
     <div class="alert alert-success center m-2" role="alert">
@@ -35,30 +36,30 @@
     <tr>
         <th>Index</th>
         <th>ID</th>
-        <th>Image</th>
-        <th>Author</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Last Updated</th>
+        <th>Email</th>
+        <th>Full Name</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Register Date</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="book" items="${listBooks}" varStatus="status">
+    <c:forEach var="customer" items="${listCustomer}" varStatus="status">
         <tr>
             <td>${status.index + 1}</td>
-            <td>${book.bookId}</td>
+            <td>${customer.customerId}</td>
+            <td>${customer.email}</td>
+            <td>${customer.fullname}</td>
+            <td>${customer.city}</td>
+            <td>${customer.country}</td>
+            <td><fmt:formatDate pattern="MM/dd/yyyy" value='${customer.registerDate}'/> </td>
+
+
+
             <td>
-                <img width="120px" src="data:image/jpg;base64,${book.base64Image}" />
-            </td>
-            <td>${book.author}</td>
-            <td>${book.category.name}</td>
-            <td>$ ${book.price}</td>
-            <td><fmt:formatDate pattern="MM/dd/yyyy" value='${book.publishDate}'/> </td>
-            <td>
-                <a type="button" class="btn btn-warning" href="edit_book?id=${book.bookId}">Edit</a>
-                <a type="button" class="btn btn-danger" href="javascript:confirmDeleteBook(${book.bookId})">Delete</a>
-                <a type="button" class="btn btn--radius" href="view_book?id=${book.bookId}">Details</a>
+                <a type="button" class="btn btn-warning" href="edit_customer?id=${customer.customerId}">Edit</a>
+                <a type="button" class="btn btn-danger" href="javascript:confirmDeleteCustomer(${customer.customerId})">Delete</a>
 
             </td>
         </tr>
@@ -78,9 +79,9 @@
         $('#myTable').DataTable();
     });
 
-    function confirmDeleteBook(bookId){
+    function confirmDeleteCustomer(categoryId){
         Swal.fire({
-            title: "Are you sure you want to delete book with ID " + bookId + " ?",
+            title: "Are you sure you want to delete the category with ID " + categoryId + " ?",
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -89,7 +90,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location = 'delete_book?id=' + bookId;
+                window.location = 'delete_customer?id=' + categoryId;
             }
         })
     }

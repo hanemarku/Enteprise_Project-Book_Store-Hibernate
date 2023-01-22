@@ -187,20 +187,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Categories</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Books</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Customers</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-chart-bar"></i>Reviews</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);"><i class="far fa-copy"></i>Orders</a>
+            <li class="nav-item ">
+                <form action="search" method="get" class="d-flex" role="search">
+                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                    <input  class="btn btn-outline-success" type="submit"></input>
+                </form>
             </li>
         </ul>
     </div>
