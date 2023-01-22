@@ -6,6 +6,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -99,29 +100,29 @@ public class CustomerServices {
         customer.setCountry(country);
     }
 
-//    public void registerCustomer() throws ServletException, IOException {
-//        String email = request.getParameter("email");
-//        Customer existCustomer = customerDAO.findByEmail(email);
-//        String message = "";
-//
-//        if (existCustomer != null) {
-//            message = "Could not register. The email "
-//                    + email + " is already registered by another customer.";
-//        } else {
-//
-//            Customer newCustomer = new Customer();
-//            updateCustomerFieldsFromForm(newCustomer);
-//            customerDAO.create(newCustomer);
-//
-//            message = "You have registered successfully! Thank you.<br/>"
-//                    + "<a href='login'>Click here</a> to login";
-//        }
-//
-//        String messagePage = "frontend/message.jsp";
-//        RequestDispatcher requestDispatcher = request.getRequestDispatcher(messagePage);
-//        request.setAttribute("message", message);
-//        requestDispatcher.forward(request, response);
-//    }
+    public void registerCustomer() throws ServletException, IOException {
+        String email = request.getParameter("email");
+        Customer existCustomer = customerDAO.findByEmail(email);
+        String message = "";
+
+        if (existCustomer != null) {
+            message = "Could not register. The email "
+                    + email + " is already registered by another customer.";
+        } else {
+
+            Customer newCustomer = new Customer();
+            updateCustomerFieldsFromForm(newCustomer);
+            customerDAO.create(newCustomer);
+
+            message = "You have registered successfully! Thank you.<br/>"
+                    + "<a href='login'>Click here</a> to login";
+        }
+
+        String messagePage = "frontend/message.jsp";
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(messagePage);
+        request.setAttribute("message", message);
+        requestDispatcher.forward(request, response);
+    }
 //
     public void editCustomer() throws ServletException, IOException {
         Integer customerId = Integer.parseInt(request.getParameter("id"));
@@ -167,61 +168,61 @@ public class CustomerServices {
         String message = "The customer has been deleted successfully.";
         listCustomers(message);
     }
-//
-//    public void showLogin() throws ServletException, IOException {
-//        String loginPage = "frontend/login.jsp";
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(loginPage);
-//        dispatcher.forward(request, response);
-//    }
-//
-//    public void doLogin() throws ServletException, IOException {
-//        String email = request.getParameter("email");
-//        String password = request.getParameter("password");
-//
-//        Customer customer = customerDAO.checkLogin(email, password);
-//
-//        if (customer == null) {
-//            String message = "Login failed. Please check your email and password.";
-//            request.setAttribute("message", message);
-//            showLogin();
-//
-//        } else {
-//            HttpSession session = request.getSession();
-//            session.setAttribute("loggedCustomer", customer);
-//
-//            Object objRedirectURL = session.getAttribute("redirectURL");
-//
-//            if (objRedirectURL != null) {
-//                String redirectURL = (String) objRedirectURL;
-//                session.removeAttribute("redirectURL");
-//                response.sendRedirect(redirectURL);
-//            } else {
-//                showCustomerProfile();
-//            }
-//        }
-//    }
-//
-//    public void showCustomerProfile() throws ServletException, IOException {
-//        String profilePage = "frontend/customer_profile.jsp";
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(profilePage);
-//        dispatcher.forward(request, response);
-//    }
-//
-//    public void showCustomerProfileEditForm() throws ServletException, IOException {
+
+    public void showLogin() throws ServletException, IOException {
+        String loginPage = "frontend/login.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(loginPage);
+        dispatcher.forward(request, response);
+    }
+
+    public void doLogin() throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        Customer customer = customerDAO.checkLogin(email, password);
+
+        if (customer == null) {
+            String message = "Login failed. Please check your email and password.";
+            request.setAttribute("message", message);
+            showLogin();
+
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("loggedCustomer", customer);
+
+            Object objRedirectURL = session.getAttribute("redirectURL");
+
+            if (objRedirectURL != null) {
+                String redirectURL = (String) objRedirectURL;
+                session.removeAttribute("redirectURL");
+                response.sendRedirect(redirectURL);
+            } else {
+                showCustomerProfile();
+            }
+        }
+    }
+
+    public void showCustomerProfile() throws ServletException, IOException {
+        String profilePage = "frontend/customer_profile.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(profilePage);
+        dispatcher.forward(request, response);
+    }
+
+    public void showCustomerProfileEditForm() throws ServletException, IOException {
 //        CommonUtility.generateCountryList(request);
-//        String editPage = "frontend/edit_profile.jsp";
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(editPage);
-//        dispatcher.forward(request, response);
-//    }
-//
-//    public void updateCustomerProfile() throws ServletException, IOException {
-//        Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
-//        updateCustomerFieldsFromForm(customer);
-//        customerDAO.update(customer);
-//
-//        showCustomerProfile();
-//
-//    }
+        String editPage = "frontend/edit_profile.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(editPage);
+        dispatcher.forward(request, response);
+    }
+
+    public void updateCustomerProfile() throws ServletException, IOException {
+        Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
+        updateCustomerFieldsFromForm(customer);
+        customerDAO.update(customer);
+
+        showCustomerProfile();
+
+    }
 //
 //    public void newCustomer() throws ServletException, IOException {
 //        CommonUtility.generateCountryList(request);

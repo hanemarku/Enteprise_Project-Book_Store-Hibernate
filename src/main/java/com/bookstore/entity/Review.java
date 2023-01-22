@@ -6,17 +6,30 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
+
+@NamedQueries({
+        @NamedQuery(name = "Review.listAll", query = "SELECT r FROM Review r ORDER BY r.reviewTime DESC"),
+        @NamedQuery(name = "Review.countAll", query = "SELECT COUNT(r) FROM Review r"),
+        @NamedQuery(name = "Review.findByCustomerAndBook",
+                query = "SELECT r FROM Review r WHERE r.customer.customerId =:customerId"
+                        + " AND r.book.bookId =:bookId"),
+        @NamedQuery(name = "Review.mostFavoredBooks",
+                query = "SELECT r.book, COUNT(r.book.bookId) AS ReviewCount, AVG(r.rating) as AvgRating FROM Review r "
+                        + "GROUP BY r.book.bookId HAVING AVG(r.rating) >= 4.0 "
+                        + "ORDER BY ReviewCount DESC, AvgRating DESC")
+})
 public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "review_id")
     private int reviewId;
-    @Basic
-    @Column(name = "book_id")
-    private int bookId;
-    @Basic
-    @Column(name = "customer_id")
-    private int customerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
     @Basic
     @Column(name = "rating")
     private int rating;
@@ -30,6 +43,19 @@ public class Review {
     @Column(name = "review_time")
     private Date reviewTime;
 
+    public Review(int reviewId, Customer customer, Book book, int rating, String headline, String comment, Date reviewTime) {
+        this.reviewId = reviewId;
+        this.customer = customer;
+        this.book = book;
+        this.rating = rating;
+        this.headline = headline;
+        this.comment = comment;
+        this.reviewTime = reviewTime;
+    }
+
+    public Review() {
+    }
+
     public int getReviewId() {
         return reviewId;
     }
@@ -38,20 +64,20 @@ public class Review {
         this.reviewId = reviewId;
     }
 
-    public int getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public int getRating() {
@@ -98,8 +124,6 @@ public class Review {
         Review review = (Review) o;
 
         if (reviewId != review.reviewId) return false;
-        if (bookId != review.bookId) return false;
-        if (customerId != review.customerId) return false;
         if (rating != review.rating) return false;
         if (headline != null ? !headline.equals(review.headline) : review.headline != null) return false;
         if (comment != null ? !comment.equals(review.comment) : review.comment != null) return false;
@@ -111,12 +135,28 @@ public class Review {
     @Override
     public int hashCode() {
         int result = reviewId;
-        result = 31 * result + bookId;
-        result = 31 * result + customerId;
         result = 31 * result + rating;
         result = 31 * result + (headline != null ? headline.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         result = 31 * result + (reviewTime != null ? reviewTime.hashCode() : 0);
         return result;
+    }
+
+
+    @Transient
+    public String getStars() {
+        String result = "";
+
+        int numberOfStarsOn = (int) rating;
+
+        for (int i = 1; i <= numberOfStarsOn; i++) {
+            result += "on,";
+        }
+
+        for (int j = numberOfStarsOn + 1; j <= 5; j++) {
+            result += "off,";
+        }
+
+        return result.substring(0, result.length() - 1);
     }
 }

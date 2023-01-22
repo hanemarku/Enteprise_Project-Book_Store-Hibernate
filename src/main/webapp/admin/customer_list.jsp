@@ -79,9 +79,9 @@
         $('#myTable').DataTable();
     });
 
-    function confirmDeleteCustomer(categoryId){
+    function confirmDeleteCustomer(customerId){
         Swal.fire({
-            title: "Are you sure you want to delete the category with ID " + categoryId + " ?",
+            title: "Are you sure you want to delete the category with ID " + customerId + " ?",
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -90,7 +90,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location = 'delete_customer?id=' + categoryId;
+                window.location = 'delete_customer?id=' + customerId;
             }
         })
     }

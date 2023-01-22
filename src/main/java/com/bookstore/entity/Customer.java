@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -44,6 +46,9 @@ public class Customer implements java.io.Serializable{
     @Basic
     @Column(name = "register_date")
     private Date registerDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    private Set<Review> reviews = new HashSet<Review>(0);
 
     public Customer() {
     }
@@ -126,6 +131,14 @@ public class Customer implements java.io.Serializable{
 
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

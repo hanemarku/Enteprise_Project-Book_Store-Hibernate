@@ -33,10 +33,10 @@ public class BookDAOTest{
     @Test
     public void testCreateBook() throws ParseException, ParseException {
         Book newBook = new Book();
-        Category category = new Category("Advanced Java");
-        category.setCategoryId(2);
+        Category category = new Category();
+        category.setCategoryId(9);
         newBook.setCategory(category);
-        newBook.setTitle("Effecyyyyyytiveuu uuuJava 2nd Editfeerion");
+        newBook.setTitle("c++");
         newBook.setAuthor("Joshua Bloch");
         newBook.setDescription("New coverage of generics");
         newBook.setPrice(387);

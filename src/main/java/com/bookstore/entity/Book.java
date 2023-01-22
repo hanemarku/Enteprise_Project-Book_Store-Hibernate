@@ -2,10 +2,7 @@ package com.bookstore.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Base64;
-import java.util.Date;
-
-import java.util.Arrays;
+import java.util.*;
 
 @Entity
 @NamedQueries({
@@ -57,6 +54,28 @@ public class Book  implements java.io.Serializable{
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
+    private Set<Review> reviews = new HashSet<Review>(0);
+
+
+
+    public Set<Review> getReviews() {
+        TreeSet<Review> sortedReviews = new TreeSet<>(new Comparator<Review>() {
+
+            @Override
+            public int compare(Review review1, Review review2) {
+                return review2.getReviewTime().compareTo(review1.getReviewTime());
+            }
+
+        });
+
+        sortedReviews.addAll(reviews);
+        return sortedReviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
 
 //    @OneToMany
 //    private Set<Review> reviews = new HashSet<Review>(0);

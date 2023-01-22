@@ -182,15 +182,35 @@
         <i class="fas fa-bars text-white"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
+        <ul class="float-l">
             <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
             </li>
-            <li class="nav-item ">
+            <c:if test="${loggedCustomer == null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="login"><i class="fas fa-tachometer-alt"></i>Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="register"><i class="fas fa-tachometer-alt"></i>Register</a>
+                </li>
+            </c:if>
+            <c:if test="${loggedCustomer != null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="view_profile"><i class="fas fa-tachometer-alt"></i>Welcome, ${loggedCustomer.fullname}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="view_orders"><i class="fas fa-tachometer-alt"></i>My orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout"><i class="fas fa-tachometer-alt"></i>Logout</a>
+                </li>
+            </c:if>
+
+            <li class="float-r" style="padding-bottom: 20px;" >
                 <form action="search" method="get" class="d-flex" role="search">
                     <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
-                    <input  class="btn btn-outline-success" type="submit"></input>
+                    <input  class="btn btn-outline-success" style="width: 100px" type="submit"></input>
                 </form>
             </li>
         </ul>

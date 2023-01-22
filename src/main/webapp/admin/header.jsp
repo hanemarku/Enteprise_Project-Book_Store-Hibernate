@@ -71,7 +71,7 @@
                 <a class="nav-link" href="list_customer">&nbsp;<i class="fas fa-users"></i>Customers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);">&nbsp;<i class="fas fa-eye"></i>Reviews</a>
+                <a class="nav-link" href="list_review">&nbsp;<i class="fas fa-eye"></i>Reviews</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);">&nbsp;<i class="fas fa-truck"></i>Orders</a>
