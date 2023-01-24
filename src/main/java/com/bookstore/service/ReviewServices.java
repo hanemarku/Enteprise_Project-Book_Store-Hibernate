@@ -1,7 +1,7 @@
 package com.bookstore.service;
 
+import com.bookstore.dao.CategoryDAO;
 import com.bookstore.dao.ReviewDAO;
-import com.bookstore.dao.UserDAO;
 import com.bookstore.entity.Review;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,23 +22,28 @@ public class ReviewServices {
         reviewDAO = new ReviewDAO();
     }
 
-    public void listAllReview() {
+    public void listAllReview() throws ServletException, IOException {
+        listAllReview(null);
     }
-
     public void listAllReview(String message) throws ServletException, IOException {
+        List<Review> listReviews = reviewDAO.listAll();
+        request.setAttribute("listReviews", listReviews);
 
-        request.setAttribute("test", "test");
-//        List<Review> listReviews = reviewDAO.listAll();
-//
-//        request.setAttribute("listReviews", listReviews);
-//
-//        if (message != null) {
-//            request.setAttribute("message", message);
-//        }
-//
         String listPage = "review_list.jsp";
         RequestDispatcher dispatcher = request.getRequestDispatcher(listPage);
-        dispatcher.forward(request, response);
 
+        if (message != null) {
+            request.setAttribute("message", message);
+        }
+        dispatcher.forward(request, response);
+    }
+
+    public void deleteReview() throws ServletException, IOException {
+        Integer reviewId = Integer.parseInt(request.getParameter("id"));
+        reviewDAO.delete(reviewId);
+
+        String message = "Review has been deleted successfully.";
+
+        listAllReview(message);
     }
 }

@@ -57,25 +57,32 @@ public class Book  implements java.io.Serializable{
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
     private Set<Review> reviews = new HashSet<Review>(0);
 
-
-
     public Set<Review> getReviews() {
-        TreeSet<Review> sortedReviews = new TreeSet<>(new Comparator<Review>() {
-
-            @Override
-            public int compare(Review review1, Review review2) {
-                return review2.getReviewTime().compareTo(review1.getReviewTime());
-            }
-
-        });
-
-        sortedReviews.addAll(reviews);
-        return sortedReviews;
+        return reviews;
     }
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
+
+
+    //    public Set<Review> getReviews() {
+//        TreeSet<Review> sortedReviews = new TreeSet<>(new Comparator<Review>() {
+//
+//            @Override
+//            public int compare(Review review1, Review review2) {
+//                return review2.getReviewTime().compareTo(review1.getReviewTime());
+//            }
+//
+//        });
+//
+//        sortedReviews.addAll(reviews);
+//        return sortedReviews;
+//    }
+//
+//    public void setReviews(Set<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 
 //    @OneToMany
 //    private Set<Review> reviews = new HashSet<Review>(0);

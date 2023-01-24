@@ -50,6 +50,14 @@ public class Customer implements java.io.Serializable{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private Set<Review> reviews = new HashSet<Review>(0);
 
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     public Customer() {
     }
 
@@ -133,13 +141,13 @@ public class Customer implements java.io.Serializable{
         this.registerDate = registerDate;
     }
 
-    public Set<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews;
-    }
+//    public Set<Review> getReviews() {
+//        return reviews;
+//    }
+//
+//    public void setReviews(Set<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 
     @Override
     public boolean equals(Object o) {
