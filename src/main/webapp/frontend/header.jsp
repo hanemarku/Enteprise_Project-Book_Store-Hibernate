@@ -182,7 +182,7 @@
         <i class="fas fa-bars text-white"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="float-l">
+        <ul style="display: flex; justify-content: flex-end;">
             <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
             <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
@@ -212,6 +212,9 @@
                     <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
                     <input  class="btn btn-outline-success" style="width: 100px" type="submit"></input>
                 </form>
+            </li>
+            <li>
+                <h1>test</h1>
             </li>
         </ul>
     </div>
