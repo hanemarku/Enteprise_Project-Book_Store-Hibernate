@@ -85,6 +85,9 @@
                 <div class="card card-block">
                     <h4 class="card-title text-right"><i class="material-icons">${book.author}</i></h4>
                     <img  src="data:image/jpg;base64,${book.base64Image}"  alt="photo">
+                        <div>
+                            <jsp:directive.include file="book_rating.jsp" />
+                        </div>
                     <h5 class="card-title mt-3 mb-3">${book.title}</h5>
                     <p class="card-text">${book.description}</p>
                     <a type="button" class="btn btn--radius" href="view_book?id=${book.bookId}">Book Details</a>

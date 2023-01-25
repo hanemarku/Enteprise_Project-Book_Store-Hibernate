@@ -45,9 +45,24 @@
         <div class="images glide" style="text-align: center;">
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides">
-                    <c:forEach items="${listNewBooks}" var="newBook">
+                    <c:forEach items="${listNewBooks}" var="book">
                     <li class="glide__slide">
-                        <img src="data:image/jpg;base64,${newBook.base64Image}" alt="">
+                        <img src="data:image/jpg;base64,${book.base64Image}" alt="">
+                        <c:forTokens items="${book.ratingStars} " delims="," var="star">
+                            <c:if test="${star eq 'on'}">
+                                <img style="width: 20px;" src="images/rating_on.png">
+                            </c:if>
+                            <c:if test="${star eq 'off'}">
+                                <img style="width: 20px;"  src="images/rating_off.png">
+                            </c:if>
+                            <c:if test="${star eq 'half'}">
+                                <img style="width: 20px;"  src="images/rating_half.png">
+                            </c:if>
+                        </c:forTokens>
+                        <div>
+                            <i>by ${book.author}</i>
+                        </div>
+                        <div>$ ${book.price}</div>
                     </li>
                     </c:forEach>
                 </ul>

@@ -10,6 +10,7 @@
 <head>
     <title>Title</title>
     <jsp:directive.include file="header.jsp"></jsp:directive.include>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -193,53 +194,70 @@
 
                     <div class="preview-pic tab-content">
                         <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
-                        <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
-                        <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
-                        <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
-                        <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
                     </div>
-                    <ul class="preview-thumbnail nav nav-tabs">
-                        <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                        <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                    </ul>
+
 
                 </div>
                 <div class="details col-md-6">
-                    <h3 class="product-title">men's shoes fashion</h3>
-                    <div class="rating">
-                        <div class="stars">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                        <span class="review-no">41 reviews</span>
+                    <h3 class="product-title">${book.title}</h3>
+
+                    <div>
+                    <c:forTokens items="${book.ratingStars} " delims="," var="star">
+                        <c:if test="${star eq 'on'}">
+                            <img style="width: 20px;" src="images/rating_on.png">
+                        </c:if>
+                        <c:if test="${star eq 'off'}">
+                            <img style="width: 20px;"  src="images/rating_off.png">
+                        </c:if>
+                        <c:if test="${star eq 'half'}">
+                            <img style="width: 20px;"  src="images/rating_half.png">
+                        </c:if>
+                    </c:forTokens>
+                        <a href="#reviews">${fn:length(book.reviews)} Reviews</a>
                     </div>
                     <p class="product-description">${book.description}</p>
                     <h4 class="price">current price: <span>$ ${book.price}</span></h4>
                     <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
-                    <h5 class="sizes">sizes:
-                        <span class="size" data-toggle="tooltip" title="small">s</span>
-                        <span class="size" data-toggle="tooltip" title="medium">m</span>
-                        <span class="size" data-toggle="tooltip" title="large">l</span>
-                        <span class="size" data-toggle="tooltip" title="xtra large">xl</span>
-                    </h5>
-                    <h5 class="colors">colors:
-                        <span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
-                        <span class="color green"></span>
-                        <span class="color blue"></span>
-                    </h5>
+
                     <div class="action">
                         <button class="add-to-cart btn btn-default" type="button">add to cart</button>
-                        <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
+    <h3> <a id="reviews">Customer Reviews</a></h3>
+    <div>
+        <table border="0">
+            <c:forEach items="${book.reviews}" var="review">
+                <tr class="p-5 m-5" style="padding-bottom: 20px;">
+                    <td style="padding-top: 20px;" >
+                        <c:forTokens items="${review.stars} " delims="," var="star">
+                            <c:if test="${star eq 'on'}">
+                                <img style="width: 20px; height: 20px;" src="images/rating_on.png">
+                            </c:if>
+                            <c:if test="${star eq 'off'}">
+                                <img style="width: 20px; height: 20px;"  src="images/rating_off.png">
+                            </c:if>
+                            <c:if test="${star eq 'half'}">
+                                <img style="width: 20px; height: 20px;"  src="images/rating_half.png">
+                            </c:if>
+                        </c:forTokens>
+                        - <b>${review.headline}</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        by ${review.customer.fullname} on ${review.reviewTime}
+                    </td>
+                </tr>
+                <tr><td><i>${review.comment}</i></td></tr>
+                <td></td>
+                <br>
+            </c:forEach>
+            <td></td>
+        </table>
     </div>
 </div>
 
