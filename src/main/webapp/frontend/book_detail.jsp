@@ -193,7 +193,7 @@
                 <div class="preview col-md-6">
 
                     <div class="preview-pic tab-content">
-                        <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
+                        <div class="tab-pane active" id="pic-1"><img  src="data:image/jpg;base64,${book.base64Image}"  alt="photo"></div>
                     </div>
 
 
@@ -221,6 +221,9 @@
 
                     <div class="action">
                         <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-info m-5" id="buttonWriteReview">Write a review</button>
                     </div>
 
                 </div>
@@ -262,4 +265,13 @@
 </div>
 
 </body>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $("#buttonWriteReview").click(function (){
+            window.location = 'write_review?book_id=' + ${book.bookId};
+        })
+    })
+
+</script>
 </html>

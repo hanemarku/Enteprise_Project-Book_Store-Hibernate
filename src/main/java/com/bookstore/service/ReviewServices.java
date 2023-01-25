@@ -1,12 +1,13 @@
 package com.bookstore.service;
 
-import com.bookstore.dao.CategoryDAO;
 import com.bookstore.dao.ReviewDAO;
+
 import com.bookstore.entity.Review;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -46,4 +47,11 @@ public class ReviewServices {
 
         listAllReview(message);
     }
+
+    public void showReviewForm() throws ServletException, IOException {
+        String targetPage = "frontend/review_form.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(targetPage);
+        dispatcher.forward(request, response);
+    }
+
 }
