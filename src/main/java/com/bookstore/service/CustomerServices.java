@@ -25,11 +25,13 @@ public class CustomerServices {
 
     public void listCustomers(String message) throws ServletException, IOException {
         List<Customer> listCustomer = customerDAO.listAll();
+
         if (message != null) {
             request.setAttribute("message", message);
         }
 
         request.setAttribute("listCustomer", listCustomer);
+
         String listPage = "customer_list.jsp";
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(listPage);
         requestDispatcher.forward(request, response);
@@ -38,8 +40,6 @@ public class CustomerServices {
     public void listCustomers() throws ServletException, IOException {
         listCustomers(null);
     }
-
-
 
     public void createCustomer() throws ServletException, IOException {
         String email = request.getParameter("email");
@@ -64,38 +64,33 @@ public class CustomerServices {
 
     private void updateCustomerFieldsFromForm(Customer customer) {
         String email = request.getParameter("email");
-        String fullname = request.getParameter("fullname");
-//        String firstname = request.getParameter("firstname");
-//        String lastname = request.getParameter("lastname");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
-        String addressLine = request.getParameter("address");
-
-//        String addressLine1 = request.getParameter("address1");
-//        String addressLine2 = request.getParameter("address2");
+        String addressLine1 = request.getParameter("address1");
+        String addressLine2 = request.getParameter("address2");
         String city = request.getParameter("city");
-//        String state = request.getParameter("state");
-        String zipCode = request.getParameter("zip");
+        String state = request.getParameter("state");
+        String zipCode = request.getParameter("zipCode");
         String country = request.getParameter("country");
 
         if (email != null && !email.equals("")) {
             customer.setEmail(email);
         }
 
-        customer.setFullname(fullname);
-//        customer.setFirstname(firstname);
-//        customer.setLastname(lastname);
+        customer.setFirstname(firstname);
+        customer.setLastname(lastname);
 
         if (password != null && !password.equals("")) {
             customer.setPassword(password);
         }
 
         customer.setPhone(phone);
-        customer.setAddress(addressLine);
-//        customer.setAddressLine1(addressLine1);
-//        customer.setAddressLine2(addressLine2);
+        customer.setAddressLine1(addressLine1);
+        customer.setAddressLine2(addressLine2);
         customer.setCity(city);
-//        customer.setState(state);
+        customer.setState(state);
         customer.setZipcode(zipCode);
         customer.setCountry(country);
     }
@@ -123,14 +118,14 @@ public class CustomerServices {
         request.setAttribute("message", message);
         requestDispatcher.forward(request, response);
     }
-//
+
     public void editCustomer() throws ServletException, IOException {
         Integer customerId = Integer.parseInt(request.getParameter("id"));
         Customer customer = customerDAO.get(customerId);
 
         request.setAttribute("customer", customer);
 
-//        CommonUtility.generateCountryList(request);
+        CommonUtility.generateCountryList(request);
 
         String editPage = "customer_form.jsp";
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(editPage);
@@ -209,7 +204,7 @@ public class CustomerServices {
     }
 
     public void showCustomerProfileEditForm() throws ServletException, IOException {
-//        CommonUtility.generateCountryList(request);
+        CommonUtility.generateCountryList(request);
         String editPage = "frontend/edit_profile.jsp";
         RequestDispatcher dispatcher = request.getRequestDispatcher(editPage);
         dispatcher.forward(request, response);
@@ -223,20 +218,20 @@ public class CustomerServices {
         showCustomerProfile();
 
     }
-//
-//    public void newCustomer() throws ServletException, IOException {
-//        CommonUtility.generateCountryList(request);
-//
-//        String customerForm = "customer_form.jsp";
-//        request.getRequestDispatcher(customerForm).forward(request, response);
-//
-//    }
-//
-//    public void showCustomerRegistrationForm() throws ServletException, IOException {
-//        CommonUtility.generateCountryList(request);
-//
-//        String registerForm = "frontend/register_form.jsp";
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(registerForm);
-//        dispatcher.forward(request, response);
-//    }
+
+    public void newCustomer() throws ServletException, IOException {
+        CommonUtility.generateCountryList(request);
+
+        String customerForm = "customer_form.jsp";
+        request.getRequestDispatcher(customerForm).forward(request, response);
+
+    }
+
+    public void showCustomerRegistrationForm() throws ServletException, IOException {
+        CommonUtility.generateCountryList(request);
+
+        String registerForm = "frontend/register_form.jsp";
+        RequestDispatcher dispatcher = request.getRequestDispatcher(registerForm);
+        dispatcher.forward(request, response);
+    }
 }

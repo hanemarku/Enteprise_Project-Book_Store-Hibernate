@@ -2,7 +2,9 @@ package com.bookstore.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
 import java.util.*;
+
 
 @Entity
 @NamedQueries({
@@ -14,7 +16,7 @@ import java.util.*;
         @NamedQuery(name = "Book.search", query = "select b from Book b where b.title LIKE CONCAT('%',:keyword,'%') OR b.author LIKE CONCAT('%',:keyword,'%')")
 
 })
-public class Book  implements java.io.Serializable{
+public class Book  implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "book_id")
@@ -46,15 +48,38 @@ public class Book  implements java.io.Serializable{
     @Basic
     @Column(name = "last_update_time")
     private Date lastUpdateTime;
-//    @Basic
-//    @Column(name = "category_id")
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
     private Set<Review> reviews = new HashSet<Review>(0);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+
+    public Book() {
+    }
+
+    public Book(Integer bookId) {
+        super();
+        this.bookId = bookId;
+    }
+
+    public Book(int bookId, String title, String author, String description, String isbn, String base64Image, byte[] image, double price, Date publishDate, Date lastUpdateTime, Category category, Set<Review> reviews, Set<OrderDetail> orderDetails) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.isbn = isbn;
+        this.base64Image = base64Image;
+        this.image = image;
+        this.price = price;
+        this.publishDate = publishDate;
+        this.lastUpdateTime = lastUpdateTime;
+        this.category = category;
+        this.reviews = reviews;
+        this.orderDetails = orderDetails;
+    }
 
     public Set<Review> getReviews() {
         return reviews;
@@ -64,29 +89,6 @@ public class Book  implements java.io.Serializable{
         this.reviews = reviews;
     }
 
-
-    //    public Set<Review> getReviews() {
-//        TreeSet<Review> sortedReviews = new TreeSet<>(new Comparator<Review>() {
-//
-//            @Override
-//            public int compare(Review review1, Review review2) {
-//                return review2.getReviewTime().compareTo(review1.getReviewTime());
-//            }
-//
-//        });
-//
-//        sortedReviews.addAll(reviews);
-//        return sortedReviews;
-//    }
-//
-//    public void setReviews(Set<Review> reviews) {
-//        this.reviews = reviews;
-//    }
-
-//    @OneToMany
-//    private Set<Review> reviews = new HashSet<Review>(0);
-//    @OneToMany
-//    private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
 
     public int getBookId() {
         return bookId;
@@ -170,13 +172,13 @@ public class Book  implements java.io.Serializable{
     }
 
     @Transient
-    public String getBase64Image(){
+    public String getBase64Image() {
         this.base64Image = Base64.getEncoder().encodeToString(this.image);
         return this.base64Image;
     }
 
     @Transient
-    public void setBase64Image(String base64Image){
+    public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
 
     }
@@ -207,6 +209,14 @@ public class Book  implements java.io.Serializable{
         averageRating = sum / reviews.size();
 
         return averageRating;
+    }
+
+    public Set<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(Set<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     @Transient
@@ -241,27 +251,6 @@ public class Book  implements java.io.Serializable{
     }
 
 
-    //    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Book book = (Book) o;
-//
-//        if (bookId != book.bookId) return false;
-//        if (Double.compare(book.price, price) != 0) return false;
-//        if (categoryId != book.categoryId) return false;
-//        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-//        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-//        if (description != null ? !description.equals(book.description) : book.description != null) return false;
-//        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
-//        if (!Arrays.equals(image, book.image)) return false;
-//        if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
-//        if (lastUpdateTime != null ? !lastUpdateTime.equals(book.lastUpdateTime) : book.lastUpdateTime != null)
-//            return false;
-//
-//        return true;
-//    }
 
 
     @Override

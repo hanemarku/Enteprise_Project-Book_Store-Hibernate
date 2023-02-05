@@ -1,151 +1,293 @@
 package com.bookstore.entity;
 
+import com.bookstore.entity.Customer;
+import com.bookstore.entity.OrderDetail;
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "book_order", schema = "bookstoredbenterprise", catalog = "")
-public class BookOrder {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "order_id")
-    private int orderId;
-    @Basic
-    @Column(name = "customer_id")
-    private int customerId;
-    @Basic
-    @Column(name = "order_date")
-    private Timestamp orderDate;
-    @Basic
-    @Column(name = "shipping_address")
-    private String shippingAddress;
-    @Basic
-    @Column(name = "recipient_name")
-    private String recipientName;
-    @Basic
-    @Column(name = "recipient_phone")
-    private String recipientPhone;
-    @Basic
-    @Column(name = "payment_method")
+@Table(name = "book_order", catalog = "bookstore")
+@NamedQueries({
+        @NamedQuery(name = "BookOrder.findAll", query = "SELECT bo FROM BookOrder bo ORDER BY bo.orderDate DESC"),
+        @NamedQuery(name = "BookOrder.countAll", query = "SELECT COUNT(*) FROM BookOrder"),
+        @NamedQuery(name = "BookOrder.findByCustomer",
+                query = "SELECT bo FROM BookOrder bo WHERE bo.customer.customerId =:customerId ORDER BY bo.orderDate DESC"),
+        @NamedQuery(name = "BookOrder.findByIdAndCustomer",
+                query = "SELECT bo FROM BookOrder bo WHERE bo.orderId =:orderId AND bo.customer.customerId =:customerId")
+})
+public class BookOrder implements java.io.Serializable {
+
+    private Integer orderId;
+    private Customer customer;
+    private Date orderDate;
+    private String addressLine1;
+    private String addressLine2;
+    private String firstname;
+    private String lastname;
+    private String phone;
+    private String city;
+    private String state;
+    private String zipcode;
+    private String country;
     private String paymentMethod;
-    @Basic
-    @Column(name = "total")
-    private double total;
-    @Basic
-    @Column(name = "status")
+
+    private float total;
+    private float subtotal;
+    private float shippingFee;
+    private float tax;
+
     private String status;
 
-    public int getOrderId() {
-        return orderId;
+    private Set<OrderDetail> orderDetails = new HashSet<OrderDetail>(0);
+
+    public BookOrder() {
     }
 
-    public void setOrderId(int orderId) {
+    @Column(name = "r_address_line2", nullable = true, length = 256)
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    @Column(name = "r_lastname",  length = 30)
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    @Column(name = "r_phone",  length = 15)
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Column(name = "r_city",  length = 32)
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Column(name = "r_state",  length = 45)
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Column(name = "r_zipcode", length = 24)
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    @Column(name = "r_country",  length = 4)
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Transient
+    public String getCountryName() {
+        return new Locale("", this.country).getDisplayCountry();
+    }
+
+    @Column(name = "subtotal",  precision = 12, scale = 0)
+    public float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(float subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    @Column(name = "shipping_fee",  precision = 12, scale = 0)
+    public float getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(float shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    @Column(name = "tax",  precision = 12, scale = 0)
+    public float getTax() {
+        return tax;
+    }
+
+    public void setTax(float tax) {
+        this.tax = tax;
+    }
+
+    public BookOrder(Customer customer, Date orderDate, String shippingAddress, String recipientName,
+                     String recipientPhone, String paymentMethod, float total, String status) {
+        this.customer = customer;
+        this.orderDate = orderDate;
+        this.addressLine1 = shippingAddress;
+        this.firstname = recipientName;
+        this.phone = recipientPhone;
+        this.paymentMethod = paymentMethod;
+        this.total = total;
+        this.status = status;
+    }
+
+    public BookOrder(Customer customer, Date orderDate, String shippingAddress, String recipientName,
+                     String recipientPhone, String paymentMethod, float total, String status, Set<OrderDetail> orderDetails) {
+        this.customer = customer;
+        this.orderDate = orderDate;
+        this.addressLine1 = shippingAddress;
+        this.firstname = recipientName;
+        this.phone = recipientPhone;
+        this.paymentMethod = paymentMethod;
+        this.total = total;
+        this.status = status;
+        this.orderDetails = orderDetails;
+    }
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+
+    @Column(name = "order_id", unique = true, nullable = false)
+    public Integer getOrderId() {
+        return this.orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable = false)
+    public Customer getCustomer() {
+        return this.customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public Timestamp getOrderDate() {
-        return orderDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "order_date",  length = 19)
+    public Date getOrderDate() {
+        return this.orderDate;
     }
 
-    public void setOrderDate(Timestamp orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
+    @Column(name = "r_address_line1",  length = 256)
+    public String getAddressLine1() {
+        return this.addressLine1;
     }
 
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
     }
 
-    public String getRecipientName() {
-        return recipientName;
+    @Column(name = "r_firstname",  length = 30)
+    public String getFirstname() {
+        return this.firstname;
     }
 
-    public void setRecipientName(String recipientName) {
-        this.recipientName = recipientName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getRecipientPhone() {
-        return recipientPhone;
-    }
-
-    public void setRecipientPhone(String recipientPhone) {
-        this.recipientPhone = recipientPhone;
-    }
-
+    @Column(name = "payment_method",  length = 20)
     public String getPaymentMethod() {
-        return paymentMethod;
+        return this.paymentMethod;
     }
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public double getTotal() {
-        return total;
+    @Column(name = "total",  precision = 12, scale = 0)
+    public float getTotal() {
+        return this.total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
+    @Column(name = "status",  length = 20)
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bookOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    public Set<OrderDetail> getOrderDetails() {
+        return this.orderDetails;
+    }
 
-        BookOrder bookOrder = (BookOrder) o;
+    public void setOrderDetails(Set<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
 
-        if (orderId != bookOrder.orderId) return false;
-        if (customerId != bookOrder.customerId) return false;
-        if (Double.compare(bookOrder.total, total) != 0) return false;
-        if (orderDate != null ? !orderDate.equals(bookOrder.orderDate) : bookOrder.orderDate != null) return false;
-        if (shippingAddress != null ? !shippingAddress.equals(bookOrder.shippingAddress) : bookOrder.shippingAddress != null)
-            return false;
-        if (recipientName != null ? !recipientName.equals(bookOrder.recipientName) : bookOrder.recipientName != null)
-            return false;
-        if (recipientPhone != null ? !recipientPhone.equals(bookOrder.recipientPhone) : bookOrder.recipientPhone != null)
-            return false;
-        if (paymentMethod != null ? !paymentMethod.equals(bookOrder.paymentMethod) : bookOrder.paymentMethod != null)
-            return false;
-        if (status != null ? !status.equals(bookOrder.status) : bookOrder.status != null) return false;
+    @Transient
+    public int getBookCopies() {
+        int total = 0;
 
-        return true;
+        for (OrderDetail orderDetail : orderDetails) {
+            total += orderDetail.getQuantity();
+        }
+
+        return total;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = orderId;
-        result = 31 * result + customerId;
-        result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
-        result = 31 * result + (shippingAddress != null ? shippingAddress.hashCode() : 0);
-        result = 31 * result + (recipientName != null ? recipientName.hashCode() : 0);
-        result = 31 * result + (recipientPhone != null ? recipientPhone.hashCode() : 0);
-        result = 31 * result + (paymentMethod != null ? paymentMethod.hashCode() : 0);
-        temp = Double.doubleToLongBits(total);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (status != null ? status.hashCode() : 0);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
         return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BookOrder other = (BookOrder) obj;
+        if (orderId == null) {
+            if (other.orderId != null)
+                return false;
+        } else if (!orderId.equals(other.orderId))
+            return false;
+        return true;
     }
 }

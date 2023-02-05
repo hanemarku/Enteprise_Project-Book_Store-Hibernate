@@ -1,43 +1,92 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/5/2023
-  Time: 9:26 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>ADRION Bookstore Administration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Evergreen Bookstore Administration</title>
+	<link rel="stylesheet" href="../css/style.css" >
 </head>
 <body>
-<jsp:include page="header.jsp"></jsp:include>
+	<jsp:directive.include file="header.jsp" />
+	
+	<div align="center">
+		<h2 class="pageheading">Administrative Dashboard</h2>
+	</div>
+	
+	<div align="center">
+		<hr width="60%" />
+		<h2 class="pageheading">Quick Actions:</h2>
+		<b>
+		<a href="new_book">New Book</a> &nbsp;
+		<a href="user_form.jsp">New User</a> &nbsp;
+		<a href="category_form.jsp">New Category</a> &nbsp;
+		<a href="new_customer">New Customer</a>
+		</b>
+	</div>
+	
+	<div align="center">
+		<hr width="60%" />
+		<h2 class="pageheading">Recent Sales:</h2>
+		<table border="1">
+			<tr>
+				<th>Order ID</th>
+				<th>Ordered By</th>
+				<th>Book Copies</th>
+				<th>Total</th>
+				<th>Payment Method</th>
+				<th>Status</th>
+				<th>Order Date</th>
+			</tr>
+			<c:forEach items="${listMostRecentSales}" var="order" varStatus="status">
+			<tr>
+				<td><a href="view_order?id=${order.orderId}">${order.orderId}</a></td>
+				<td>${order.customer.fullname}</td>
+				<td>${order.bookCopies}</td>
+				<td><fmt:formatNumber value="${order.total}" type="currency" /></td>
+				<td>${order.paymentMethod}</td>
+				<td>${order.status}</td>
+				<td>${order.orderDate}</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
 
-<h1>Administrative Dashboard</h1>
-<a href="list_users">uuuuuuser</a>
-<a href="list_category">categories</a>
-
-<%--<nav>--%>
-<%--    <div class="nav nav-tabs" id="nav-tab" role="tablist">--%>
-<%--        <button class="nav-link active" type="button" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Users</button>--%>
-<%--        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>--%>
-<%--        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>--%>
-<%--        <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false">Disabled</button>--%>
-<%--    </div>--%>
-<%--</nav>--%>
-
-<%--<div class="tab-content" id="nav-tabContent">--%>
-<%--    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0"><%@ include file="users_list.jsp" %></div>--%>
-<%--    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">test2</div>--%>
-<%--    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">test3</div>--%>
-<%--    <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">test4</div>--%>
-<%--</div>--%>
-
-<%--<div th:replace="products/product_description :: content"></div>--%>
-
-<jsp:include page="footer.jsp"></jsp:include>
+	<div align="center">
+		<hr width="60%" />
+		<h2 class="pageheading">Recent Reviews:</h2>
+		<table border="1">
+			<tr>
+				<th>Book</th>
+				<th>Rating</th>
+				<th>Headline</th>
+				<th>Customer</th>
+				<th>Review On</th>
+			</tr>
+			<c:forEach items="${listMostRecentReviews}" var="review">
+			<tr>
+				<td>${review.book.title}</td>
+				<td>${review.rating}</td>
+				<td><a href="edit_review?id=${review.reviewId}">${review.headline}</a></td>
+				<td>${review.customer.fullname}</td>
+				<td>${review.reviewTime}</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
+	<div align="center">
+		<hr width="60%" />
+		<h2 class="pageheading">Statistics:</h2>
+		Total Users: ${totalUsers} &nbsp;&nbsp;&nbsp;&nbsp;
+		Total Books: ${totalBooks} &nbsp;&nbsp;&nbsp;&nbsp;
+		Total Customers: ${totalCustomers} &nbsp;&nbsp;&nbsp;&nbsp;
+		Total Reviews: ${totalReviews} &nbsp;&nbsp;&nbsp;&nbsp;
+		Total Orders: ${totalOrders}
+		
+		<hr width="60%" />
+	</div>		
+	<jsp:directive.include file="footer.jsp" />
 </body>
 </html>

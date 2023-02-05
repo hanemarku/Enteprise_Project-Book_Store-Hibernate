@@ -1,52 +1,41 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/16/2023
-  Time: 4:17 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login</title>
-  <jsp:include page="header.jsp"></jsp:include>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="text/javascript" src="../js/login.js"></script>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Admin Login</title>
+	<link rel="stylesheet" href="../css/style.css" >
 </head>
 <body>
-  <h1 class="text-center mt-5 mb-3">Login</h1>
-  <div class="container w-25">
-      <h3>Admin Store Administration</h3>
-      <p>Admin Login</p>
-      <c:if test="${message != null}">
-          <div class="alert alert-warning center m-2" role="alert">
-                  ${message}
-          </div>
-      </c:if>
-<%--    <div class="alert alert-danger" id="validations" role="alert"></div>--%>
-
-    <form id="formLogin" method="POST" action="login">
-      <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder="email@example.com" name="email">
-        </label><span class="error" id="message3"></span></span>
-
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-        </label><span class="error" id="message1"></span></span>
-
-      </div>
-
-      <button type="submit" class="btn btn-danger btn-block">Login</button>
-      <div class="dropdown-divider"></div>
-    </form>
-    <a class="dropdown-item" href="/signup">New around here? Sign up</a>
-    <a class="dropdown-item" href="#">Forgot password?</a>
-  </div>
-
+	<div align="center">
+		<h1>Book Store Administration</h1>
+		<h2>Admin Login</h2>
+		
+		<c:if test="${message != null}">
+			<div align="center">
+				<h4 class="message">${message}</h4>
+			</div>
+		</c:if>
+		
+		<form id="loginForm" action="login" method="post">
+			<table>
+				<tr>
+					<td>Email:</td>
+					<td><input type="email" name="email" size="20" required minlength="5" maxlength="30"></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password" name="password" size="20" required minlength="4" maxlength="32"></td>
+				</tr>		
+				<tr>
+					<td colspan="2" align="center">
+						<button type="submit">Login</button>
+					</td>
+				</tr>		
+			</table>
+		</form>
+	</div>	
 </body>
 </html>

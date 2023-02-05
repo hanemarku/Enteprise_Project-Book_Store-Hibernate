@@ -11,11 +11,8 @@ import java.io.IOException;
 @WebServlet("/admin/login")
 public class AdminLoginServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String email = request.getParameter("email");
-//        String password = request.getParameter("password");
-//        response.getWriter().println(email + " , " + password);
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         UserServices userServices = new UserServices(request, response);
         userServices.login();
     }

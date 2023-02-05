@@ -1,111 +1,61 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/21/2023
-  Time: 12:14 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
 <html>
-<head>
-  <title>Title</title>
-  <jsp:include page="header.jsp"></jsp:include>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"></script>
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-  <style>
-    img{
-      height:150px;
-      width:100%;
-    }
-
-    div [class^="col-"]{
-      padding-left:5px;
-      padding-right:5px;
-    }
-    .card{
-      transition:0.5s;
-      cursor:pointer;
-    }
-    .card-title{
-      font-size:15px;
-      transition:1s;
-      cursor:pointer;
-    }
-    .card-title i{
-      font-size:15px;
-      transition:1s;
-      cursor:pointer;
-      color:#ffa710
-    }
-    .card-title i:hover{
-      transform: scale(1.25) rotate(100deg);
-      color:#18d4ca;
-
-    }
-    .card:hover{
-      transform: scale(1.05);
-      box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
-    }
-    .card-text{
-      height:80px;
-    }
-
-    .card::before, .card::after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      transform: scale3d(0, 0, 1);
-      transition: transform .3s ease-out 0s;
-      background: rgba(255, 255, 255, 0.1);
-      content: '';
-      pointer-events: none;
-    }
-    .card::before {
-      transform-origin: left top;
-    }
-    .card::after {
-      transform-origin: right bottom;
-    }
-    .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
-      transform: scale3d(1, 1, 1);
-    }
-  </style>
-</head>
+	<jsp:include page="page_head.jsp">
+		<jsp:param name="pageTitle" value="Results for ${keyword}" />
+	</jsp:include>
 <body>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<body>
+<div class="container">
+	<jsp:directive.include file="header.jsp" />
 
-<div class="container mt-2">
-  <c:if test="${fn:length(result) == 0}">
-    <h2>No result for ${keyword}</h2>
-  </c:if>
-  <c:if test="${fn:length(result) > 0}">
-  <h2>Results for ${keyword} : </h2>
-  <div class="row">
+	<div>&nbsp;</div>
+	
+	<div class="row">
+		<div class="col text-center">
+			<c:if test="${fn:length(result) == 0}">
+				<h2>No Results for "${keyword}"</h2>
+			</c:if>		
+			
+			<c:if test="${fn:length(result) > 0}">
+				<h2>Results for "${keyword}"</h2>
+			</c:if>			
+		</div>
+	</div>
+	
 
-    <c:forEach items="${result}" var="book">
-      <div class="col-md-3 col-sm-6">
-        <div class="card card-block">
-          <h4 class="card-title text-right"><i class="material-icons">${book.author}</i></h4>
-          <img  src="data:image/jpg;base64,${book.base64Image}"  alt="photo">
-          <h5 class="card-title mt-3 mb-3">${book.title}</h5>
-          <p class="card-text">${book.description}</p>
-          <a type="button" class="btn btn--radius" href="view_book?id=${book.bookId}">Book Details</a>
-          <a type="button" class="btn btn--radius" href="view_book?id=${book.bookId}">Add To Cart</a>
+	<c:forEach items="${result}" var="book">
+		<div class="row">
+			<div class="col-sm-2 text-center">
+					<a href="view_book?id=${book.bookId}"> 
+						<img width="128" height="164" src="data:image/jpg;base64,${book.base64Image}" />
+					</a>
+			</div>
+			<div class="col-sm-8">
+				<div>
+					<h3><a href="view_book?id=${book.bookId}"> ${book.title}</a></h3>
+				</div>
+				<div><jsp:directive.include file="book_rating.jsp" /></div>
+				<div>
+					<i>by ${book.author}</i>
+				</div>
+				<div>
+					<c:set var="shortDescription" value="${fn:substring(book.description, 0, 100)}" />					
+					<p>${fn:escapeXml(shortDescription)}...</p>
+				</div>					
+			</div>
+			<div class="col-sm-2 text-center">
+				<h3>$${book.price}</h3>
+				<h3><a href="add_to_cart?book_id=${book.bookId}" class="btn btn-primary">Add To Cart</a></h3>
+			</div>
+		</div>
+		<div class="row">&nbsp;</div>
+	</c:forEach>
 
-        </div>
-      </div>
-    </c:forEach>
-</c:if>
 
-  </div>
-
-</div>
-
+	<jsp:directive.include file="footer.jsp" />
+</div>	
 </body>
 </html>
-

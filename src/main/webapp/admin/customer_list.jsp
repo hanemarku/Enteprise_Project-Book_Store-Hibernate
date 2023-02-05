@@ -1,99 +1,75 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/12/2023
-  Time: 12:23 PM
-  To change this template use File | Settings | File Templates.
---%>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
-    <title>Customers</title>
-    <style>
-        div.dataTables_wrapper {
-            margin-bottom: 3em;
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Manage Customers - Evergreen Bookstore Administration</title>
+	<link rel="stylesheet" href="../css/style.css" >
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<jsp:directive.include file="header.jsp"></jsp:directive.include>
-
-
-<h2>Category Management</h2>
-<a type="button" class="btn btn-success" href="customer_form.jsp">Create new customer</a>
-
-<c:if test="${message != null}">
-    <div class="alert alert-success center m-2" role="alert">
-            ${message}
-    </div>
-</c:if>
-
-<table id="myTable" class="display" style="width:100%">
-    <thead>
-    <tr>
-        <th>Index</th>
-        <th>ID</th>
-        <th>Email</th>
-        <th>Full Name</th>
-        <th>City</th>
-        <th>Country</th>
-        <th>Register Date</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="customer" items="${listCustomer}" varStatus="status">
-        <tr>
-            <td>${status.index + 1}</td>
-            <td>${customer.customerId}</td>
-            <td>${customer.email}</td>
-            <td>${customer.fullname}</td>
-            <td>${customer.city}</td>
-            <td>${customer.country}</td>
-            <td><fmt:formatDate pattern="MM/dd/yyyy" value='${customer.registerDate}'/> </td>
-
-
-
-            <td>
-                <a type="button" class="btn btn-warning" href="edit_customer?id=${customer.customerId}">Edit</a>
-                <a type="button" class="btn btn-danger" href="javascript:confirmDeleteCustomer(${customer.customerId})">Delete</a>
-
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-    <tfoot>
-
-    </tfoot>
-</table>
-
-<jsp:directive.include file="footer.jsp"></jsp:directive.include>
-
+	<jsp:directive.include file="header.jsp" />
+	
+	<div align="center">
+		<h2 class="pageheading">Customers Management</h1>
+		<h3><a href="new_customer">Create New Customer</a></h3>
+	</div>
+	
+	<c:if test="${message != null}">
+	<div align="center">
+		<h4 class="message">${message}</h4>
+	</div>
+	</c:if>
+	
+	<div align="center">
+		<table border="1" cellpadding="5">
+			<tr>
+				<th>Index</th>
+				<th>ID</th>
+				<th>E-mail</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>City</th>
+				<th>Country</th>
+				<th>Registered Date</th>
+				<th>Actions</th>
+			</tr>
+			<c:forEach var="customer" items="${listCustomer}" varStatus="status">
+			<tr>
+				<td>${status.index + 1}</td>
+				<td>${customer.customerId}</td>
+				<td>${customer.email}</td>
+				<td>${customer.firstname}</td>
+				<td>${customer.lastname}</td>
+				<td>${customer.city}</td>
+				<td>${customer.countryName}</td>
+				<td>${customer.registerDate}</td>
+				<td>
+					<a href="edit_customer?id=${customer.customerId}">Edit</a> &nbsp;
+					<a href="javascript:void(0);" class="deleteLink" id="${customer.customerId}">Delete</a>
+				</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
+	
+	<jsp:directive.include file="footer.jsp" />
+	
+	<script>
+		$(document).ready(function() {
+			$(".deleteLink").each(function() {
+				$(this).on("click", function() {
+					customerId = $(this).attr("id");
+					if (confirm('Are you sure you want to delete the customer with ID ' +  customerId + '?')) {
+						window.location = 'delete_customer?id=' + customerId;
+					}					
+				});
+			});
+		});
+	</script>
 </body>
-
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    });
-
-    function confirmDeleteCustomer(customerId){
-        Swal.fire({
-            title: "Are you sure you want to delete the category with ID " + customerId + " ?",
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location = 'delete_customer?id=' + customerId;
-            }
-        })
-    }
-</script>
-
 </html>

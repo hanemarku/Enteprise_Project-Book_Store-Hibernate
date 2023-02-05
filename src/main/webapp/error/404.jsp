@@ -1,19 +1,22 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/17/2023
-  Time: 10:42 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Internal Server Error</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Page Not Found Error</title>
 </head>
 <body>
-    <h2>Sorry, the server has encountered an error.</h2>
-    <div>
-        <a href="javascript:history.get(-1)"></a>
-    </div>
+<div align="center">
+	<div>
+		<img src="${pageContext.request.contextPath}/images/BookstoreLogo.png" />
+	</div>
+	<div>
+		<h2>Sorry, the requested page could not be found.</h2>
+	</div>	
+	<div>
+		<a href="javascript:history.go(-1);">Go Back</a>
+	</div>
+</div>
 </body>
 </html>

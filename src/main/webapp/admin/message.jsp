@@ -1,27 +1,20 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/14/2023
-  Time: 5:47 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Evergreen Bookstore Administration</title>
 </head>
 <body>
-<jsp:include page="header.jsp"></jsp:include>
 
-
-
-<%--<c:if test="${message != null}">--%>
-    <div class="alert alert-warning center m-2" role="alert">
-            ${message}
-    </div>
-<%--</c:if>--%>
-
-<jsp:include page="footer.jsp"></jsp:include>
+	<jsp:directive.include file="header.jsp" />
+	
+	<div align="center">
+		<h3>${message}</h3>
+	</div>
+		
+	<jsp:directive.include file="footer.jsp" />
 
 </body>
 </html>

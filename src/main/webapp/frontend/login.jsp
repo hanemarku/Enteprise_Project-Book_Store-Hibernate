@@ -1,52 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 1/16/2023
-  Time: 4:17 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Admin Login</title>
-    <jsp:include page="header.jsp"></jsp:include>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="text/javascript" src="../js/login.js"></script>
-
-</head>
+	<jsp:include page="page_head.jsp">
+		<jsp:param name="pageTitle" value="Customer Login" />
+	</jsp:include>
 <body>
-<h1 class="text-center mt-5 mb-3">Login</h1>
-<div class="container w-25">
-    <h3>ADRION BookStore</h3>
-    <p>Customer Login</p>
-    <c:if test="${message != null}">
-        <div class="alert alert-warning center m-2" role="alert">
-                ${message}
-        </div>
-    </c:if>
-    <%--    <div class="alert alert-danger" id="validations" role="alert"></div>--%>
+<div class="container">
+	<jsp:directive.include file="header.jsp" />
+	
+	<div class="row">&nbsp;</div>
+	
+	<div class="row">		
+		<div class="col text-center"><h2>Customer Login</h2></div>
+	</div>
+	
+	<div class="row">&nbsp;</div>
 
-    <form id="formLogin" method="POST" action="login">
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="email@example.com" name="email">
-            </label><span class="error" id="message3"></span></span>
-
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
-            </label><span class="error" id="message1"></span></span>
-
-        </div>
-
-        <button type="submit" class="btn btn-danger btn-block">Login</button>
-        <div class="dropdown-divider"></div>
-    </form>
-    <a class="dropdown-item" href="/signup">New around here? Sign up</a>
-    <a class="dropdown-item" href="#">Forgot password?</a>
-</div>
-
+	<c:if test="${message != null}">
+		<div class="row">		
+			<div class="col text-center"><h4 class="message">${message}</h4></div>
+		</div>
+	</c:if>
+		
+	<form action="login" method="post" style="max-width: 400px; margin: 0 auto;">
+		<div class="border border-secondary rounded p-3">
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Email:</label>
+				<div class="col-sm-8">
+					<input type="email" name="email" class="form-control" required minlength="5" maxlength="64">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-4 col-form-label">Password:</label>
+				<div class="col-sm-8">
+					<input type="password" name="password" class="form-control" required minlength="5" maxlength="16">
+				</div>
+			</div>		
+			<div class="row">
+				<div class="col text-center">
+					<button type="submit" class="btn btn-primary">Login</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+	<jsp:directive.include file="footer.jsp" />
+</div>	
 </body>
 </html>

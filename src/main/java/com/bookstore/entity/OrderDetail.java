@@ -3,80 +3,91 @@ package com.bookstore.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "order_detail")
-public class OrderDetail {
+@Table(name = "order_detail", catalog = "bookstore")
+@NamedQueries({
+        @NamedQuery(name = "OrderDetail.bestSelling",
+                query = "SELECT od.book FROM OrderDetail od GROUP by od.book.bookId "
+                        + "ORDER BY SUM(od.quantity) DESC")
 
+})
+public class OrderDetail implements java.io.Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "order_id")
-    private Integer orderId;
-    @Basic
-    @Column(name = "book_id")
-    private Integer bookId;
-    @Basic
-    @Column(name = "quantity")
+    @EmbeddedId
+
+    @AttributeOverrides({ @AttributeOverride(name = "orderId", column = @Column(name = "order_id", nullable = false)),
+            @AttributeOverride(name = "bookId", column = @Column(name = "book_id", nullable = false))})
+    private OrderDetailId id = new OrderDetailId();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id", insertable = false, updatable = false, nullable = false)
+    private Book book;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", insertable = false, updatable = false, nullable = false)
+    private BookOrder bookOrder;
     private int quantity;
-    @Basic
-    @Column(name = "subtotal")
-    private double subtotal;
+    private float subtotal;
 
-    public Integer getOrderId() {
-        return orderId;
+    public OrderDetail() {
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public OrderDetail(OrderDetailId id) {
+        this.id = id;
     }
 
-    public Integer getBookId() {
-        return bookId;
+    public OrderDetail(OrderDetailId id, Book book, BookOrder bookOrder, int quantity, float subtotal) {
+        this.id = id;
+        this.book = book;
+        this.bookOrder = bookOrder;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+
+    public OrderDetailId getId() {
+        return this.id;
     }
 
+    public void setId(OrderDetailId id) {
+        this.id = id;
+    }
+
+
+    public Book getBook() {
+        return this.book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+        this.id.setBook(book);
+    }
+
+
+    public BookOrder getBookOrder() {
+        return this.bookOrder;
+    }
+
+    public void setBookOrder(BookOrder bookOrder) {
+        this.bookOrder = bookOrder;
+        this.id.setBookOrder(bookOrder);
+    }
+
+    @Column(name = "quantity", nullable = false)
     public int getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public double getSubtotal() {
-        return subtotal;
+    @Column(name = "subtotal", nullable = false, precision = 12, scale = 0)
+    public float getSubtotal() {
+        return this.subtotal;
     }
 
-    public void setSubtotal(double subtotal) {
+    public void setSubtotal(float subtotal) {
         this.subtotal = subtotal;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderDetail that = (OrderDetail) o;
-
-        if (quantity != that.quantity) return false;
-        if (Double.compare(that.subtotal, subtotal) != 0) return false;
-        if (orderId != null ? !orderId.equals(that.orderId) : that.orderId != null) return false;
-        if (bookId != null ? !bookId.equals(that.bookId) : that.bookId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = orderId != null ? orderId.hashCode() : 0;
-        result = 31 * result + (bookId != null ? bookId.hashCode() : 0);
-        result = 31 * result + quantity;
-        temp = Double.doubleToLongBits(subtotal);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
-    }
 }
