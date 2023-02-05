@@ -1,4 +1,4 @@
-# Enteprise_Project-Book_Store
+# Enterprise_Project-Book_Store
 Enteprise Project - Book Store
 Hibernate 
 Servlet
